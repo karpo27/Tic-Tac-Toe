@@ -9,7 +9,7 @@ turn = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 def start():
     print("Welcome to Tic Tac Toe game!\n"
           "")
-    rules = input("if you already know the rules press 'Enter' otherwise type 'help'. ")
+    rules = input("If you already know the rules press 'Enter' otherwise type 'help'. ")
 
     if rules in ['help', 'HELP', 'Help']:
         print("1. The game is played on a grid that's 3 squares by 3 squares.\n"
@@ -26,12 +26,14 @@ def select_name():
     global name
     name = input("\n"
                  "Please enter your name: ")
-    print(f"Hello {name}!")
+    print(f"\n"
+          f"Hello {name}!")
     select_difficulty()
 
 
 def select_difficulty():
-    game_dif = input(f"Please select the AI\'s difficulty level:\n"
+    game_dif = input(f"\n"
+                     "Please select the AI\'s difficulty level:\n"
                      f"1- Easy\n"
                      f"2- Medium\n"
                      f"3- Hard\n"
@@ -46,7 +48,8 @@ def select_difficulty():
 
 def select_mark():
     global p_mark
-    p_mark = input("Choose 'X' or 'O' ""(remember 'X' moves first)\n"
+    p_mark = input("\n"
+                   "Choose 'X' or 'O' ""(remember 'X' moves first)\n"
                    "")
 
     x_choice = ["x", "X", "1"]
@@ -70,18 +73,15 @@ def select_mark():
 def play_player():
     if len(av_options) == 9:
         print(f"    {name}'s Turn")
-        turn.pop(0)
         print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     else:
         print(f"    {name}'s Turn")
-        turn.pop(0)
 
     p_choice = input(f"Choose an empty square from the list {av_options}: ")
 
     if p_choice in av_options:
         av_options.remove(p_choice)
         if len(g_op) > 0:
-            print(len(g_op))
             g_op.pop(int(p_choice) - 1)
             g_op.insert(int(p_choice) - 1, p_mark)
     else:
@@ -90,12 +90,12 @@ def play_player():
 
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     win()
+    turn.pop(0)
     play_ai()
 
 
 def play_ai():
     print(f"    AI's Turn")
-    turn.pop(0)
 
     ai_choice = secrets.choice(av_options)
 
@@ -106,11 +106,12 @@ def play_ai():
 
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     win()
+    turn.pop(0)
     play_player()
 
 
 def win():
-    if len(av_options) == 4:
+    if len(av_options) <= 4:
         if g_op[0] == g_op[1] and g_op[0] == g_op[2] and (g_op[0], g_op[1], g_op[2]) != ("", "", ""):
             win_message()
             exit()
