@@ -6,7 +6,7 @@ g_op = ["", "", "", "", "", "", "", "", ""]
 turn = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 
-def start_intro():
+def start():
     print("Welcome to Tic Tac Toe game!\n"
           "")
     rules = input("if you already know the rules press 'Enter' otherwise type 'help'. ")
@@ -19,12 +19,15 @@ def start_intro():
               "4. The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.\n"
               "5. When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends in a tie.")
 
+    select_name()
+
 
 def select_name():
     global name
     name = input("\n"
                  "Please enter your name: ")
     print(f"Hello {name}!")
+    select_difficulty()
 
 
 def select_difficulty():
@@ -37,6 +40,8 @@ def select_difficulty():
     if game_dif not in ["1", "2", "3"]:
         print("Please select a valid option ")
         select_difficulty()
+
+    select_mark()
 
 
 def select_mark():
@@ -75,8 +80,10 @@ def play_player():
 
     if p_choice in av_options:
         av_options.remove(p_choice)
-        g_op.pop(int(p_choice) - 1)
-        g_op.insert(int(p_choice) - 1, p_mark)
+        if len(g_op) > 0:
+            print(len(g_op))
+            g_op.pop(int(p_choice) - 1)
+            g_op.insert(int(p_choice) - 1, p_mark)
     else:
         print("Please select a valid option ")
         play_player()
@@ -93,8 +100,9 @@ def play_ai():
     ai_choice = secrets.choice(av_options)
 
     av_options.remove(ai_choice)
-    g_op.pop(int(ai_choice) - 1)
-    g_op.insert(int(ai_choice) - 1, ai_mark)
+    if len(g_op) > 0:
+        g_op.pop(int(ai_choice) - 1)
+        g_op.insert(int(ai_choice) - 1, ai_mark)
 
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     win()
@@ -104,37 +112,56 @@ def play_ai():
 def win():
     if len(av_options) == 4:
         if g_op[0] == g_op[1] and g_op[0] == g_op[2] and (g_op[0], g_op[1], g_op[2]) != ("", "", ""):
-            print("")
+            win_message()
+            exit()
         elif g_op[0] == g_op[3] and g_op[0] == g_op[6] and (g_op[0], g_op[3], g_op[6]) != ("", "", ""):
-            pass
+            win_message()
+            exit()
         elif g_op[0] == g_op[4] and g_op[0] == g_op[8] and (g_op[0], g_op[4], g_op[8]) != ("", "", ""):
-            pass
+            win_message()
+            exit()
         elif g_op[1] == g_op[4] and g_op[1] == g_op[7] and (g_op[1], g_op[4], g_op[7]) != ("", "", ""):
-            pass
+            win_message()
+            exit()
         elif g_op[2] == g_op[5] and g_op[2] == g_op[8] and (g_op[2], g_op[5], g_op[8]) != ("", "", ""):
-            pass
+            win_message()
+            exit()
         elif g_op[2] == g_op[4] and g_op[2] == g_op[6] and (g_op[2], g_op[4], g_op[6]) != ("", "", ""):
-            pass
+            win_message()
+            exit()
         elif g_op[3] == g_op[4] and g_op[3] == g_op[5] and (g_op[2], g_op[4], g_op[5]) != ("", "", ""):
-            pass
+            win_message()
+            exit()
         elif g_op[6] == g_op[7] and g_op[6] == g_op[8] and (g_op[6], g_op[7], g_op[8]) != ("", "", ""):
-            pass
-        else:
-            pass
+            win_message()
+            exit()
+        elif len(av_options) == 0 and g_op.count("X") == g_op.count("O") + 1:
+            tie_message()
+            exit()
+        elif len(av_options) == 0 and g_op.count("X") + 1 == g_op.count("O"):
+            tie_message()
+            exit()
 
 
 def win_message():
     if g_op.count("X") > g_op.count("O") and p_mark == "X":
         print(f"Congratulations {name}!, you won the game in {turn[0]} turns")
     elif g_op.count("X") > g_op.count("O") and ai_mark == "X":
-        pass
+        print(f"AI won the game in {turn[0]} turns, better luck next time pal")
     elif g_op.count("O") > g_op.count("X") and p_mark == "O":
-        pass
+        print(f"Congratulations {name}!, you won the game in {turn[0]} turns")
     elif g_op.count("O") > g_op.count("X") and ai_mark != "O":
-        pass
+        print(f"AI won the game in {turn[0]} turns, better luck next time pal")
 
 
-start_intro()
-select_name()
-select_difficulty()
-select_mark()
+def tie_message():
+    print(" Tie! ")
+
+
+if __name__ == "__main__":
+    start()
+
+
+
+
+
