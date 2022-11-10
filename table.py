@@ -46,4 +46,3 @@ table = " " + top_left + h_line + top_middle + h_line + top_middle + h_line + to
 
 
 
-

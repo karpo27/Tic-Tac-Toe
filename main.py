@@ -7,41 +7,59 @@ turn = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 
 def start():
-    print("Welcome to Tic Tac Toe game!\n"
+    print("\n"
+          "Welcome to Tic Tac Toe game!\n"
           "")
     rules = input("If you already know the rules press 'Enter' otherwise type 'help'. ")
 
     if rules in ['help', 'HELP', 'Help']:
         print("1. The game is played on a grid that's 3 squares by 3 squares.\n"
-              "2. You are 'X' or 'O' (depends on your choice) and the AI uses the remaining option.\n"
+              "2. You can choose 'X' or 'O' and the other person or AI uses the remaining option.\n"
               "3. Players take turns putting their marks in empty squares. Squares are identified with numbers:\n"
               f"{table.example_table}"
               "4. The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.\n"
               "5. When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends in a tie.")
 
-    select_name()
+    select_name("1")
 
 
-def select_name():
-    global name
-    name = input("\n"
-                 "Please enter your name: ")
-    print(f"\n"
-          f"Hello {name}!")
-    select_difficulty()
+def select_name(n_player):
+    if n_player == "1":
+        global name_p1
+        name_p1 = input("\n"
+                     "Player 1 please enter your name: ")
+        print(f"\n"
+              f"Hello {name_p1}!")
+        select_game_mode()
+
+    if n_player == "2":
+        global name_p2
+        name_p2 = input("\n"
+                        "Player 2 please enter your name: ")
+        print(f"\n"
+              f"Hello {name_p2}!")
+
+        global dictionary
+        dictionary = {"1": name_p1, "2": name_p2}
+        select_mark()
 
 
-def select_difficulty():
-    game_dif = input(f"\n"
-                     "Please select the AI\'s difficulty level:\n"
-                     f"1- Easy\n"
-                     f"2- Medium\n"
-                     f"3- Hard\n"
-                     f"")
+def select_game_mode():
+    global game_mode
+    game_mode = input(f"\n"
+                     "Please select the game mode:\n"
+                     "1- Easy\n"
+                     "2- Medium\n"
+                     "3- Hard\n"
+                      "4- PVP\n"
+                      "")
 
-    if game_dif not in ["1", "2", "3"]:
+    if game_mode in ["1", "2", "3", "4"]:
+        if game_mode == "4":
+            select_name("2")
+    else:
         print("Please select a valid option ")
-        select_difficulty()
+        select_game_mode()
 
     select_mark()
 
@@ -49,7 +67,7 @@ def select_difficulty():
 def select_mark():
     global p_mark
     p_mark = input("\n"
-                   "Choose 'X' or 'O' ""(remember 'X' moves first)\n"
+                   f"{name_p1} choose 'X' or 'O' ""(remember 'X' moves first)\n"
                    "")
 
     x_choice = ["x", "X", "1"]
@@ -63,35 +81,50 @@ def select_mark():
         p_mark = "X"
         global ai_mark
         ai_mark = "O"
-        play_player()
+        dictionary.update({"1": [name_p1, p_mark]})
+        dictionary.update({"2": [name_p2, ai_mark]})
+        play_player("1")
     else:
         p_mark = "O"
         ai_mark = "X"
-        play_ai()
+        dictionary.update({"1": [name_p1, ai_mark]})
+        dictionary.update({"2": [name_p2, p_mark]})
+        if game_mode == "4":
+            play_player("2")
+        else:
+            play_ai()
 
 
-def play_player():
+def play_player(n_player):
     if len(av_options) == 9:
-        print(f"    {name}'s Turn")
+        print("\n"
+              f"    {dictionary[n_player][0]}'s Turn")
         print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     else:
-        print(f"    {name}'s Turn")
+        print(f"    {dictionary[n_player][0]}'s Turn")
 
-    p_choice = input(f"Choose an empty square from the list {av_options}: ")
+    p_choice = input("\n"
+                     f"Choose an empty square from the list {av_options}: ")
 
     if p_choice in av_options:
         av_options.remove(p_choice)
-        if len(g_op) > 0:
-            g_op.pop(int(p_choice) - 1)
-            g_op.insert(int(p_choice) - 1, p_mark)
+        g_op.pop(int(p_choice) - 1)
+        g_op.insert(int(p_choice) - 1, dictionary[n_player][1])
     else:
         print("Please select a valid option ")
-        play_player()
+        play_player(n_player)
 
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     win()
     turn.pop(0)
-    play_ai()
+
+    if game_mode == "4":
+        if n_player == "1":
+            play_player("2")
+        else:
+            play_player("1")
+    else:
+        play_ai()
 
 
 def play_ai():
@@ -107,7 +140,7 @@ def play_ai():
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     win()
     turn.pop(0)
-    play_player()
+    play_player("1")
 
 
 def win():
@@ -145,11 +178,11 @@ def win():
 
 def win_message():
     if g_op.count("X") > g_op.count("O") and p_mark == "X":
-        print(f"Congratulations {name}!, you won the game in {turn[0]} turns")
+        print(f"Congratulations {name_p1}!, you won the game in {turn[0]} turns")
     elif g_op.count("X") > g_op.count("O") and ai_mark == "X":
         print(f"AI won the game in {turn[0]} turns, better luck next time pal!")
     elif g_op.count("O") == g_op.count("X") and p_mark == "O":
-        print(f"Congratulations {name}!, you won the game in {turn[0]} turns")
+        print(f"Congratulations {name_p1}!, you won the game in {turn[0]} turns")
     elif g_op.count("O") == g_op.count("X") and ai_mark == "O":
         print(f"AI won the game in {turn[0]} turns, better luck next time pal!")
 
@@ -162,6 +195,6 @@ if __name__ == "__main__":
     start()
 
 
-
+#if len(g_op) > 0:
 
 
