@@ -136,10 +136,9 @@ def win():
         elif g_op[6] == g_op[7] and g_op[6] == g_op[8] and (g_op[6], g_op[7], g_op[8]) != ("", "", ""):
             win_message()
             exit()
-        elif len(av_options) == 0 and g_op.count("X") == g_op.count("O") + 1:
-            tie_message()
-            exit()
-        elif len(av_options) == 0 and g_op.count("X") + 1 == g_op.count("O"):
+
+    if len(av_options) == 0:
+        if g_op.count("X") == g_op.count("O") + 1:
             tie_message()
             exit()
 
@@ -148,11 +147,11 @@ def win_message():
     if g_op.count("X") > g_op.count("O") and p_mark == "X":
         print(f"Congratulations {name}!, you won the game in {turn[0]} turns")
     elif g_op.count("X") > g_op.count("O") and ai_mark == "X":
-        print(f"AI won the game in {turn[0]} turns, better luck next time pal")
-    elif g_op.count("O") > g_op.count("X") and p_mark == "O":
+        print(f"AI won the game in {turn[0]} turns, better luck next time pal!")
+    elif g_op.count("O") == g_op.count("X") and p_mark == "O":
         print(f"Congratulations {name}!, you won the game in {turn[0]} turns")
-    elif g_op.count("O") > g_op.count("X") and ai_mark != "O":
-        print(f"AI won the game in {turn[0]} turns, better luck next time pal")
+    elif g_op.count("O") == g_op.count("X") and ai_mark == "O":
+        print(f"AI won the game in {turn[0]} turns, better luck next time pal!")
 
 
 def tie_message():
