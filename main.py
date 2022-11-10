@@ -1,9 +1,6 @@
 import table
 import secrets
 
-ALL_OPTIONS = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-INDEX = [28, 35, 42, 76, 83, 90, 124, 131, 138]
-
 av_options = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 g_op = ["", "", "", "", "", "", "", "", ""]
 
@@ -54,30 +51,42 @@ def select_mark():
         ai_mark = "O"
         play_player()
     else:
-        pass
+        p_mark = "O"
+        ai_mark = "X"
+        play_ai()
 
 def play_player():
-    print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
+    if len(av_options) == 9:
+        print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
 
     p_choice = input(f"Choose an empty square from the list {av_options}: ")
 
-    if p_choice not in av_options:
+    if p_choice in av_options:
+        av_options.remove(p_choice)
+        g_op.pop(int(p_choice) - 1)
+        g_op.insert(int(p_choice) - 1, p_mark)
+    else:
         print("Please select a valid option ")
         play_player()
-    else:
-        av_options.remove(p_choice)
-        g_op.insert(int(p_choice) - 1, p_mark)
 
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     play_ai()
 
 def play_ai():
-    pass
     ai_choice = secrets.choice(av_options)
-    print("hola")
+    print(ai_choice)
 
+    av_options.remove(ai_choice)
+    g_op.pop(int(ai_choice) - 1)
+    g_op.insert(int(ai_choice) - 1, ai_mark)
 
+    print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
+    play_player()
 
+def win():
+
+    if len(av_options) == 4:
+        if g_op[0] == g_op[1] and g_op[0] == g_op[2] and (g_op[0], g_op[1], g_op[2]) != ("", "", ""):
 
 
 
@@ -87,8 +96,3 @@ select_name()
 select_difficulty()
 select_mark()
 
-'''
-if p_choice in table.example_table:
-    for i, j in zip(ALL_OPTIONS, INDEX):
-        if i == p_choice:
-            game_table = table.table[:j] + p_choice + table.table[j + 1:] '''

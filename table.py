@@ -36,8 +36,6 @@ example_table = " " + top_left + h_line + top_middle + h_line + top_middle + h_l
         " " + v_line + space_7 + v_line + space_8 + v_line + space_9 + v_line + "\n"\
         " " + bot_left + h_line + bot_middle + h_line + bot_middle + h_line + bot_right + "\n"\
 
-space_empty = f"      "  # 6 spaces
-
 table = " " + top_left + h_line + top_middle + h_line + top_middle + h_line + top_right + "\n"\
         " " + v_line + "  {:^2}  " + v_line + "  {:^2}  " + v_line + "  {:^2}  " + v_line + "\n"\
         " " + mid_left + h_line + mid_center + h_line + mid_center + h_line + mid_right + "\n"\
@@ -46,14 +44,6 @@ table = " " + top_left + h_line + top_middle + h_line + top_middle + h_line + to
         " " + v_line + "  {:^2}  " + v_line + "  {:^2}  " + v_line + "  {:^2}  " + v_line + "\n"\
         " " + bot_left + h_line + bot_middle + h_line + bot_middle + h_line + bot_right + "\n"\
 
-'''
-table_2 = " " + top_left + h_line + top_middle + h_line + top_middle + h_line + top_right + "\n"\
-        " " + v_line + space_empty + v_line + space_empty + v_line + space_empty + v_line + "\n"\
-        " " + mid_left + h_line + mid_center + h_line + mid_center + h_line + mid_right + "\n"\
-        " " + v_line + space_empty + v_line + space_empty + v_line + space_empty + v_line + "\n"\
-        " " + mid_left + h_line + mid_center + h_line + mid_center + h_line + mid_right + "\n"\
-        " " + v_line + space_empty + v_line + space_empty + v_line + space_empty + v_line + "\n"\
-        " " + bot_left + h_line + bot_middle + h_line + bot_middle + h_line + bot_right + "\n"\ '''
 
 
 
