@@ -44,5 +44,3 @@ table = " " + top_left + h_line + top_middle + h_line + top_middle + h_line + to
         " " + v_line + "  {:^2}  " + v_line + "  {:^2}  " + v_line + "  {:^2}  " + v_line + "\n"\
         " " + bot_left + h_line + bot_middle + h_line + bot_middle + h_line + bot_right + "\n"\
 
-
-

@@ -4,6 +4,7 @@ import secrets
 av_options = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 g_op = ["", "", "", "", "", "", "", "", ""]
 turn = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+AI_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 
 def start():
@@ -56,13 +57,11 @@ def select_game_mode():
                       "4- PVP\n"
                       "")
 
-    if game_mode in ["1", "2", "3"]:
-        pass
-    elif game_mode == "4":
-        select_name("2")
-    else:
+    if game_mode not in ["1", "2", "3"]:
         print("Please select a valid option ")
         select_game_mode()
+    elif game_mode == "4":
+        select_name("2")
 
     select_mark()
 
@@ -98,7 +97,7 @@ def select_mark():
             dictionary.update({"2": [name_p2, ai_mark]})
             play_player("2")
         else:
-            play_ai()
+            play_ai(game_mode)
 
 
 def play_player(n_player):
@@ -130,23 +129,111 @@ def play_player(n_player):
         else:
             play_player("1")
     else:
-        play_ai()
+        play_ai(game_mode)
 
 
-def play_ai():
+def play_ai(game_mode):
     print(f"    AI's Turn")
 
-    ai_choice = secrets.choice(av_options)
+    if game_mode == "1":
+        ai_choice = secrets.choice(av_options)
+    elif game_mode == "2":
+        ai_choice = secrets.choice(av_options)
+    else:
+        ai_choice = play_ai_hard(turn[0])
 
     av_options.remove(ai_choice)
-    if len(g_op) > 0:
-        g_op.pop(int(ai_choice) - 1)
-        g_op.insert(int(ai_choice) - 1, ai_mark)
+    g_op.pop(int(ai_choice) - 1)
+    g_op.insert(int(ai_choice) - 1, ai_mark)
 
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     win("1")
     turn.pop(0)
     play_player("1")
+
+
+def play_ai_hard(turn):
+    corners = [AI_LIST[0], AI_LIST[2], AI_LIST[6], AI_LIST[8]]
+    edges_1 = [AI_LIST[1], AI_LIST[3], AI_LIST[5], AI_LIST[7]]
+    edges = [g_op[1], g_op[3], g_op[5], g_op[7]]
+    if turn == "2":
+        if g_op[4] == "":
+            ai_choice = AI_LIST[4]
+        else:
+            ai_choice = secrets.choice(corners)
+
+        return ai_choice
+
+    elif turn == "4":
+        # Block Moves
+        if (g_op[0], g_op[1]) == (p_mark, p_mark) and g_op[2] == "":
+            ai_choice = AI_LIST[2]
+        elif (g_op[0], g_op[4]) == (p_mark, p_mark) and g_op[9] == "":
+            ai_choice = AI_LIST[9]
+        elif (g_op[0], g_op[3]) == (p_mark, p_mark) and g_op[6] == "":
+            ai_choice = AI_LIST[6]
+        elif (g_op[1], g_op[2]) == (p_mark, p_mark) and g_op[0] == "":
+            ai_choice = AI_LIST[0]
+        elif (g_op[1], g_op[4]) == (p_mark, p_mark) and g_op[7] == "":
+            ai_choice = AI_LIST[7]
+        elif (g_op[2], g_op[4]) == (p_mark, p_mark) and g_op[6] == "":
+            ai_choice = AI_LIST[6]
+        elif (g_op[2], g_op[5]) == (p_mark, p_mark) and g_op[8] == "":
+            ai_choice = AI_LIST[8]
+        elif (g_op[3], g_op[4]) == (p_mark, p_mark) and g_op[5] == "":
+            ai_choice = AI_LIST[5]
+        elif (g_op[3], g_op[6]) == (p_mark, p_mark) and g_op[0] == "":
+            ai_choice = AI_LIST[0]
+        elif (g_op[4], g_op[5]) == (p_mark, p_mark) and g_op[3] == "":
+            ai_choice = AI_LIST[3]
+        elif (g_op[4], g_op[6]) == (p_mark, p_mark) and g_op[2] == "":
+            ai_choice = AI_LIST[2]
+        elif (g_op[4], g_op[7]) == (p_mark, p_mark) and g_op[1] == "":
+            ai_choice = AI_LIST[1]
+        elif (g_op[4], g_op[8]) == (p_mark, p_mark) and g_op[0] == "":
+            ai_choice = AI_LIST[0]
+        elif (g_op[5], g_op[8]) == (p_mark, p_mark) and g_op[2] == "":
+            ai_choice = AI_LIST[2]
+        elif (g_op[6], g_op[7]) == (p_mark, p_mark) and g_op[8] == "":
+            ai_choice = AI_LIST[8]
+        elif (g_op[7], g_op[8]) == (p_mark, p_mark) and g_op[6] == "":
+            ai_choice = AI_LIST[6]
+
+        # Block Forks
+        elif (g_op[0], g_op[2]) == (p_mark, p_mark) and g_op[1] == "":
+            ai_choice = AI_LIST[1]
+        elif (g_op[0], g_op[8]) == (p_mark, p_mark):
+            temp = []
+            if g_op[4] == "":
+                ai_choice = AI_LIST[4]
+            elif g_op[4] == "O":
+                for i, j in zip(range(len(edges)), ["2", "4", "6", "8"]):
+                    if edges[i] == "":
+                        temp.append(j)
+                ai_choice = secrets.choice(temp)
+
+        elif (g_op[0], g_op[6]) == (p_mark, p_mark) and g_op[3] == "":
+            ai_choice = AI_LIST[3]
+        elif (g_op[1], g_op[7]) == (p_mark, p_mark) and g_op[4] == "":
+            ai_choice = AI_LIST[4]
+        elif (g_op[2], g_op[6]) == (p_mark, p_mark):
+            temp = []
+            if g_op[4] == "":
+                ai_choice = AI_LIST[4]
+            elif g_op[4] == "O":
+                for i, j in zip(range(len(edges)), ["2", "4", "6", "8"]):
+                    if edges[i] == "":
+                        temp.append(j)
+                ai_choice = secrets.choice(temp)
+
+        elif (g_op[2], g_op[8]) == (p_mark, p_mark) and g_op[5] == "":
+            ai_choice = AI_LIST[5]
+        elif (g_op[3], g_op[5]) == (p_mark, p_mark) and g_op[4] == "":
+            ai_choice = AI_LIST[4]
+        elif (g_op[6], g_op[8]) == (p_mark, p_mark) and g_op[7] == "":
+            ai_choice = AI_LIST[7]
+
+        return ai_choice
 
 
 def win(n_player):
@@ -212,5 +299,5 @@ if __name__ == "__main__":
 
 
 
-
+#if len(g_op) > 0:
 
