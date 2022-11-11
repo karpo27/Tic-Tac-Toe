@@ -30,6 +30,9 @@ def select_name(n_player):
                      "Player 1 please enter your name: ")
         print(f"\n"
               f"Hello {name_p1}!")
+
+        global dictionary
+        dictionary = {"1": name_p1}
         select_game_mode()
 
     if n_player == "2":
@@ -39,8 +42,7 @@ def select_name(n_player):
         print(f"\n"
               f"Hello {name_p2}!")
 
-        global dictionary
-        dictionary = {"1": name_p1, "2": name_p2}
+        dictionary.update({"2": name_p2})
         select_mark()
 
 
@@ -54,9 +56,10 @@ def select_game_mode():
                       "4- PVP\n"
                       "")
 
-    if game_mode in ["1", "2", "3", "4"]:
-        if game_mode == "4":
-            select_name("2")
+    if game_mode in ["1", "2", "3"]:
+        pass
+    elif game_mode == "4":
+        select_name("2")
     else:
         print("Please select a valid option ")
         select_game_mode()
@@ -82,17 +85,19 @@ def select_mark():
         p_mark = "X"
         ai_mark = "O"
         dictionary.update({"1": [name_p1, p_mark]})
-        dictionary.update({"2": [name_p2, ai_mark]})
-        play_player("1")
+        if game_mode == "4":
+            dictionary.update({"2": [name_p2, ai_mark]})
+            play_player("1")
+        else:
+            play_ai()
     else:
         p_mark = "O"
         ai_mark = "X"
-        dictionary.update({"1": [name_p1, ai_mark]})
-        dictionary.update({"2": [name_p2, p_mark]})
+        dictionary.update({"1": [name_p1, p_mark]})
         if game_mode == "4":
-            play_player("2")
+            dictionary.update({"2": [name_p2, ai_mark]})
         else:
-            play_ai()
+            play_player("2")
 
 
 def play_player(n_player):
@@ -138,7 +143,7 @@ def play_ai():
         g_op.insert(int(ai_choice) - 1, ai_mark)
 
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
-    win()
+    win("2")
     turn.pop(0)
     play_player("1")
 
@@ -183,11 +188,18 @@ def win_message(n_player):
     if g_op.count("X") > g_op.count("O") and p_mark == "X":
         print(player_win)
     elif g_op.count("X") > g_op.count("O") and ai_mark == "X":
-        print(ai_win)
+        if game_mode == "4":
+            print(player_win)
+        else:
+            print(ai_win)
     elif g_op.count("O") == g_op.count("X") and p_mark == "O":
         print(player_win)
     elif g_op.count("O") == g_op.count("X") and ai_mark == "O":
-        print(ai_win)
+        if game_mode == "4":
+            print(player_win)
+        else:
+            print(ai_win)
+
 
 
 def tie_message():
