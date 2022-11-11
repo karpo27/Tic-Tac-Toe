@@ -66,6 +66,7 @@ def select_game_mode():
 
 def select_mark():
     global p_mark
+    global ai_mark
     p_mark = input("\n"
                    f"{name_p1} choose 'X' or 'O' ""(remember 'X' moves first)\n"
                    "")
@@ -79,7 +80,6 @@ def select_mark():
 
     if p_mark in x_choice:
         p_mark = "X"
-        global ai_mark
         ai_mark = "O"
         dictionary.update({"1": [name_p1, p_mark]})
         dictionary.update({"2": [name_p2, ai_mark]})
@@ -115,7 +115,7 @@ def play_player(n_player):
         play_player(n_player)
 
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
-    win()
+    win(n_player)
     turn.pop(0)
 
     if game_mode == "4":
@@ -143,31 +143,31 @@ def play_ai():
     play_player("1")
 
 
-def win():
+def win(n_player):
     if len(av_options) <= 4:
         if g_op[0] == g_op[1] and g_op[0] == g_op[2] and (g_op[0], g_op[1], g_op[2]) != ("", "", ""):
-            win_message()
+            win_message(n_player)
             exit()
         elif g_op[0] == g_op[3] and g_op[0] == g_op[6] and (g_op[0], g_op[3], g_op[6]) != ("", "", ""):
-            win_message()
+            win_message(n_player)
             exit()
         elif g_op[0] == g_op[4] and g_op[0] == g_op[8] and (g_op[0], g_op[4], g_op[8]) != ("", "", ""):
-            win_message()
+            win_message(n_player)
             exit()
         elif g_op[1] == g_op[4] and g_op[1] == g_op[7] and (g_op[1], g_op[4], g_op[7]) != ("", "", ""):
-            win_message()
+            win_message(n_player)
             exit()
         elif g_op[2] == g_op[5] and g_op[2] == g_op[8] and (g_op[2], g_op[5], g_op[8]) != ("", "", ""):
-            win_message()
+            win_message(n_player)
             exit()
         elif g_op[2] == g_op[4] and g_op[2] == g_op[6] and (g_op[2], g_op[4], g_op[6]) != ("", "", ""):
-            win_message()
+            win_message(n_player)
             exit()
         elif g_op[3] == g_op[4] and g_op[3] == g_op[5] and (g_op[2], g_op[4], g_op[5]) != ("", "", ""):
-            win_message()
+            win_message(n_player)
             exit()
         elif g_op[6] == g_op[7] and g_op[6] == g_op[8] and (g_op[6], g_op[7], g_op[8]) != ("", "", ""):
-            win_message()
+            win_message(n_player)
             exit()
 
     if len(av_options) == 0:
@@ -176,15 +176,18 @@ def win():
             exit()
 
 
-def win_message():
+def win_message(n_player):
+    player_win = f"Congratulations {dictionary[n_player][0]}!, you won the game in {turn[0]} turns"
+    ai_win = f"AI won the game in {turn[0]} turns, better luck next time pal!"
+
     if g_op.count("X") > g_op.count("O") and p_mark == "X":
-        print(f"Congratulations {name_p1}!, you won the game in {turn[0]} turns")
+        print(player_win)
     elif g_op.count("X") > g_op.count("O") and ai_mark == "X":
-        print(f"AI won the game in {turn[0]} turns, better luck next time pal!")
+        print(ai_win)
     elif g_op.count("O") == g_op.count("X") and p_mark == "O":
-        print(f"Congratulations {name_p1}!, you won the game in {turn[0]} turns")
+        print(player_win)
     elif g_op.count("O") == g_op.count("X") and ai_mark == "O":
-        print(f"AI won the game in {turn[0]} turns, better luck next time pal!")
+        print(ai_win)
 
 
 def tie_message():
