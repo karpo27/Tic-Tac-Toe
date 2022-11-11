@@ -13,7 +13,8 @@ def start():
     rules = input("If you already know the rules press 'Enter' otherwise type 'help'. ")
 
     if rules in ['help', 'HELP', 'Help']:
-        print("1. The game is played on a grid that's 3 squares by 3 squares.\n"
+        print("\n"
+              "1. The game is played on a grid that's 3 squares by 3 squares.\n"
               "2. You can choose 'X' or 'O' and the other person or AI uses the remaining option.\n"
               "3. Players take turns putting their marks in empty squares. Squares are identified with numbers:\n"
               f"{table.example_table}"
@@ -34,8 +35,7 @@ def select_name(n_player):
         global dictionary
         dictionary = {"1": name_p1}
         select_game_mode()
-
-    if n_player == "2":
+    else:
         global name_p2
         name_p2 = input("\n"
                         "Player 2 please enter your name: ")
@@ -89,15 +89,16 @@ def select_mark():
             dictionary.update({"2": [name_p2, ai_mark]})
             play_player("1")
         else:
-            play_ai()
+            play_player("1")
     else:
         p_mark = "O"
         ai_mark = "X"
         dictionary.update({"1": [name_p1, p_mark]})
         if game_mode == "4":
             dictionary.update({"2": [name_p2, ai_mark]})
-        else:
             play_player("2")
+        else:
+            play_ai()
 
 
 def play_player(n_player):
@@ -143,7 +144,7 @@ def play_ai():
         g_op.insert(int(ai_choice) - 1, ai_mark)
 
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
-    win("2")
+    win("1")
     turn.pop(0)
     play_player("1")
 
@@ -210,6 +211,6 @@ if __name__ == "__main__":
     start()
 
 
-#if len(g_op) > 0:
+
 
 
