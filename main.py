@@ -11,7 +11,7 @@ def start():
     print("\n"
           "Welcome to Tic Tac Toe game!\n"
           "")
-    rules = input("If you already know the rules press 'Enter' otherwise type 'help'. ")
+    rules = input("If you already know the rules press any key to continue, otherwise type 'help'. ")
 
     if rules in ['help', 'HELP', 'Help']:
         print("\n"
@@ -30,6 +30,9 @@ def select_name(n_player):
         global name_p1
         name_p1 = input("\n"
                      "Player 1 please enter your name: ")
+        if name_p1 == "":
+            name_p1 = "Mysterious Guy"
+
         print(f"\n"
               f"Hello {name_p1}!")
 
@@ -40,6 +43,9 @@ def select_name(n_player):
         global name_p2
         name_p2 = input("\n"
                         "Player 2 please enter your name: ")
+        if name_p2 == "":
+            name_p2 = "Mysterious Guy's partner"
+
         print(f"\n"
               f"Hello {name_p2}!")
 
@@ -57,7 +63,7 @@ def select_game_mode():
                       "4- PVP\n"
                       "")
 
-    if game_mode not in ["1", "2", "3"]:
+    if game_mode not in ["1", "2", "3", "4"]:
         print("Please select a valid option ")
         select_game_mode()
     elif game_mode == "4":
