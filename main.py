@@ -159,8 +159,6 @@ def play_ai_hard(turn, mark):
     global ai_choice
     center = [AI_LIST[4]]
     corners = [AI_LIST[0], AI_LIST[2], AI_LIST[6], AI_LIST[8]]
-    edges_1 = [AI_LIST[1], AI_LIST[3], AI_LIST[5], AI_LIST[7]]
-    edges = [g_op[1], g_op[3], g_op[5], g_op[7]]
     if turn == "1":
         ai_choice = secrets.choice(corners + center)
 
@@ -171,21 +169,6 @@ def play_ai_hard(turn, mark):
             ai_choice = AI_LIST[4]
         else:
             ai_choice = secrets.choice(corners)
-
-        return ai_choice
-
-    if turn == "3":
-        if g_op[4] == "":
-            ai_choice = AI_LIST[4]
-        elif g_op[4] != mark:
-            if g_op[0] == mark:
-                ai_choice = AI_LIST[8]
-            elif g_op[2] == mark:
-                ai_choice = AI_LIST[6]
-            elif g_op[6] == mark:
-                ai_choice = AI_LIST[2]
-            elif g_op[8] == mark:
-                ai_choice = AI_LIST[0]
 
         return ai_choice
 
@@ -228,29 +211,13 @@ def play_ai_hard(turn, mark):
         elif (g_op[0], g_op[2]) == (mark, mark) and g_op[1] == "":
             ai_choice = AI_LIST[1]
         elif (g_op[0], g_op[8]) == (mark, mark):
-            temp = []
-            if g_op[4] == "":
-                ai_choice = AI_LIST[4]
-            elif g_op[4] != mark:
-                for i, j in zip(range(len(edges)), ["2", "4", "6", "8"]):
-                    if edges[i] == "":
-                        temp.append(j)
-                ai_choice = secrets.choice(temp)
-
+            ai_choice = AI_LIST[4]
         elif (g_op[0], g_op[6]) == (mark, mark) and g_op[3] == "":
             ai_choice = AI_LIST[3]
         elif (g_op[1], g_op[7]) == (mark, mark) and g_op[4] == "":
             ai_choice = AI_LIST[4]
         elif (g_op[2], g_op[6]) == (mark, mark):
-            temp = []
-            if g_op[4] == "":
-                ai_choice = AI_LIST[4]
-            elif g_op[4] != mark:
-                for i, j in zip(range(len(edges)), ["2", "4", "6", "8"]):
-                    if edges[i] == "":
-                        temp.append(j)
-                ai_choice = secrets.choice(temp)
-
+            ai_choice = AI_LIST[4]
         elif (g_op[2], g_op[8]) == (mark, mark) and g_op[5] == "":
             ai_choice = AI_LIST[5]
         elif (g_op[3], g_op[5]) == (mark, mark) and g_op[4] == "":
@@ -364,7 +331,7 @@ def win(n_player):
         elif g_op[2] == g_op[4] and g_op[2] == g_op[6] and (g_op[2], g_op[4], g_op[6]) != ("", "", ""):
             win_message(n_player)
             exit()
-        elif g_op[3] == g_op[4] and g_op[3] == g_op[5] and (g_op[2], g_op[4], g_op[5]) != ("", "", ""):
+        elif g_op[3] == g_op[4] and g_op[3] == g_op[5] and (g_op[3], g_op[4], g_op[5]) != ("", "", ""):
             win_message(n_player)
             exit()
         elif g_op[6] == g_op[7] and g_op[6] == g_op[8] and (g_op[6], g_op[7], g_op[8]) != ("", "", ""):
@@ -404,7 +371,5 @@ def tie_message():
 
 if __name__ == "__main__":
     start()
-
-
 
 
