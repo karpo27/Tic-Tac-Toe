@@ -289,8 +289,12 @@ def play_ai_hard(turn, mark):
                 ai_choice = AI_LIST[5]
             elif g_op[4] not in ("", mark) and (g_op[0], g_op[8]) == ("", ""):
                 ai_choice = secrets.choice([AI_LIST[0], AI_LIST[8]])
+            elif g_op[4] not in ("", mark) and (g_op[1], g_op[7]) == ("", ""):
+                ai_choice = secrets.choice([AI_LIST[1], AI_LIST[7]])
             elif g_op[4] not in ("", mark) and (g_op[2], g_op[6]) == ("", ""):
                 ai_choice = secrets.choice([AI_LIST[2], AI_LIST[6]])
+            elif g_op[4] not in ("", mark) and (g_op[3], g_op[5]) == ("", ""):
+                ai_choice = secrets.choice([AI_LIST[3], AI_LIST[5]])
             elif g_op[5] not in ("", mark) and (g_op[3], g_op[4]) == ("", ""):
                 ai_choice = AI_LIST[3]
             elif g_op[6] not in ("", mark) and (g_op[0], g_op[3]) == ("", ""):
