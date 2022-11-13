@@ -165,6 +165,7 @@ def play_ai_hard(turn, mark):
     global ai_choice
     center = [AI_LIST[4]]
     corners = [AI_LIST[0], AI_LIST[2], AI_LIST[6], AI_LIST[8]]
+    edges = [AI_LIST[1], AI_LIST[3], AI_LIST[5], AI_LIST[7]]
     if turn == "1":
         ai_choice = secrets.choice(corners + center)
 
@@ -216,13 +217,13 @@ def play_ai_hard(turn, mark):
         # Win Forks / Block Forks
         elif (g_op[0], g_op[2]) == (mark, mark) and g_op[1] == "":
             ai_choice = AI_LIST[1]
-        elif (g_op[0], g_op[8]) == (mark, mark):
+        elif (g_op[0], g_op[8]) == (mark, mark) and g_op[4] == "":
             ai_choice = AI_LIST[4]
         elif (g_op[0], g_op[6]) == (mark, mark) and g_op[3] == "":
             ai_choice = AI_LIST[3]
         elif (g_op[1], g_op[7]) == (mark, mark) and g_op[4] == "":
             ai_choice = AI_LIST[4]
-        elif (g_op[2], g_op[6]) == (mark, mark):
+        elif (g_op[2], g_op[6]) == (mark, mark) and g_op[4] == "":
             ai_choice = AI_LIST[4]
         elif (g_op[2], g_op[8]) == (mark, mark) and g_op[5] == "":
             ai_choice = AI_LIST[5]
@@ -234,12 +235,33 @@ def play_ai_hard(turn, mark):
         # Others Win Forks / Block Forks
         elif (g_op[1], g_op[3]) == (mark, mark) and (g_op[0], g_op[2], g_op[6]) == ("", "", ""):
             ai_choice = AI_LIST[0]
+        elif (g_op[1], g_op[6]) == (mark, mark) and (g_op[0], g_op[2], g_op[3]) == ("", "", ""):
+            ai_choice = AI_LIST[0]
+        elif (g_op[2], g_op[3]) == (mark, mark) and (g_op[0], g_op[1], g_op[6]) == ("", "", ""):
+            ai_choice = AI_LIST[0]
         elif (g_op[1], g_op[5]) == (mark, mark) and (g_op[0], g_op[2], g_op[8]) == ("", "", ""):
+            ai_choice = AI_LIST[2]
+        elif (g_op[0], g_op[5]) == (mark, mark) and (g_op[1], g_op[2], g_op[8]) == ("", "", ""):
+            ai_choice = AI_LIST[2]
+        elif (g_op[1], g_op[8]) == (mark, mark) and (g_op[0], g_op[2], g_op[5]) == ("", "", ""):
             ai_choice = AI_LIST[2]
         elif (g_op[3], g_op[7]) == (mark, mark) and (g_op[0], g_op[6], g_op[8]) == ("", "", ""):
             ai_choice = AI_LIST[6]
+        elif (g_op[0], g_op[7]) == (mark, mark) and (g_op[3], g_op[6], g_op[8]) == ("", "", ""):
+            ai_choice = AI_LIST[6]
+        elif (g_op[3], g_op[8]) == (mark, mark) and (g_op[0], g_op[6], g_op[7]) == ("", "", ""):
+            ai_choice = AI_LIST[6]
         elif (g_op[5], g_op[7]) == (mark, mark) and (g_op[2], g_op[6], g_op[8]) == ("", "", ""):
             ai_choice = AI_LIST[8]
+        elif (g_op[2], g_op[7]) == (mark, mark) and (g_op[5], g_op[6], g_op[8]) == ("", "", ""):
+            ai_choice = AI_LIST[8]
+        elif (g_op[5], g_op[6]) == (mark, mark) and (g_op[2], g_op[7], g_op[8]) == ("", "", ""):
+            ai_choice = AI_LIST[8]
+
+        elif (g_op[0], g_op[8]) == (mark, mark) and (g_op[1], g_op[2], g_op[3], g_op[5], g_op[6], g_op[7]) == ("", "", "", "", "", ""):
+            ai_choice = secrets.choice(edges)
+        elif (g_op[2], g_op[6]) == (mark, mark) and (g_op[0], g_op[1], g_op[3], g_op[5], g_op[7], g_op[8]) == ("", "", "", "", "", ""):
+            ai_choice = secrets.choice(edges)
 
         # Others Moves
         elif mark == p_mark:
