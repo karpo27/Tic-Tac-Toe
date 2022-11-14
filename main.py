@@ -143,7 +143,7 @@ def play_player(n_player):
 
 
 def play_ai(game_mode):
-    print(f"    AI's Turn")
+    print("    AI's Turn")
 
     if game_mode == "1":  # 65% AI Hard
         ai_choice = secrets.choice(set_conditional_choice(65, play_ai_hard(turn[0])))
@@ -171,14 +171,13 @@ def set_conditional_choice(probability, ai_hard_choice):
     return av_options + prob_list
 
 
-def play_ai_hard(turn):
-
-    if turn == "1":
+def play_ai_hard(n_turn):
+    if n_turn == "1":
         ai_choice = secrets.choice(CORNERS + CENTER)
 
         return ai_choice
 
-    if turn == "2":
+    if n_turn == "2":
         if g_op[4] == "":
             ai_choice = AI_LIST[4]
         else:
@@ -414,7 +413,6 @@ def win_message(n_player):
             print(player_win)
         else:
             print(ai_win)
-
 
 
 def tie_message():
