@@ -141,11 +141,26 @@ def play_player(n_player):
 def play_ai(game_mode):
     print(f"    AI's Turn")
 
-    if game_mode == "1":
+    if game_mode == "1":  # 40-45% AI Hard
         ai_choice = secrets.choice(av_options)
-    elif game_mode == "2":
-        ai_choice = secrets.choice(av_options)
-    else:
+    elif game_mode == "2":  # 80% AI Hard
+        if play_ai_hard(turn[0], ai_mark) in av_options:
+            prob_list = []
+            x = play_ai_hard(turn[0], ai_mark)
+            while 80 > (prob_list + av_options).count(x) * 100 / len(prob_list + av_options):
+                prob_list.append(x)
+
+            ai_choice = secrets.choice(av_options + prob_list)
+
+        else:
+            prob_list = []
+            x = play_ai_hard(turn[0], p_mark)
+            while 80 > (prob_list + av_options).count(x) * 100 / len(prob_list + av_options):
+                prob_list.append(x)
+
+            ai_choice = secrets.choice(av_options + prob_list)
+
+    else:  # AI Hard
         if play_ai_hard(turn[0], ai_mark) in av_options:
             ai_choice = play_ai_hard(turn[0], ai_mark)
         else:
