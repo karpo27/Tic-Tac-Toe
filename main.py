@@ -141,25 +141,16 @@ def play_player(n_player):
 def play_ai(game_mode):
     print(f"    AI's Turn")
 
-    if game_mode == "1":  # 40-45% AI Hard
-        ai_choice = secrets.choice(av_options)
-    elif game_mode == "2":  # 80% AI Hard
+    if game_mode == "1":  # 65% AI Hard
         if play_ai_hard(turn[0], ai_mark) in av_options:
-            prob_list = []
-            x = play_ai_hard(turn[0], ai_mark)
-            while 80 > (prob_list + av_options).count(x) * 100 / len(prob_list + av_options):
-                prob_list.append(x)
-
-            ai_choice = secrets.choice(av_options + prob_list)
-
+            ai_choice = secrets.choice(set_conditional_choice(65, play_ai_hard(turn[0], ai_mark)))
         else:
-            prob_list = []
-            x = play_ai_hard(turn[0], p_mark)
-            while 80 > (prob_list + av_options).count(x) * 100 / len(prob_list + av_options):
-                prob_list.append(x)
-
-            ai_choice = secrets.choice(av_options + prob_list)
-
+            ai_choice = secrets.choice(set_conditional_choice(65, play_ai_hard(turn[0], p_mark)))
+    elif game_mode == "2":  # 88% AI Hard
+        if play_ai_hard(turn[0], ai_mark) in av_options:
+            ai_choice = secrets.choice(set_conditional_choice(88, play_ai_hard(turn[0], ai_mark)))
+        else:
+            ai_choice = secrets.choice(set_conditional_choice(88, play_ai_hard(turn[0], p_mark)))
     else:  # AI Hard
         if play_ai_hard(turn[0], ai_mark) in av_options:
             ai_choice = play_ai_hard(turn[0], ai_mark)
@@ -174,6 +165,14 @@ def play_ai(game_mode):
     win("1")
     turn.pop(0)
     play_player("1")
+
+
+def set_conditional_choice(probability, ai_hard_choice):
+    prob_list = []
+    while probability > (prob_list + av_options).count(ai_hard_choice) * 100 / len(prob_list + av_options):
+        prob_list.append(ai_hard_choice)
+
+    return av_options + prob_list
 
 
 def play_ai_hard(turn, mark):
