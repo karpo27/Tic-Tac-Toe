@@ -5,6 +5,10 @@ av_options = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 g_op = ["", "", "", "", "", "", "", "", ""]
 turn = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 AI_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+CENTER = [AI_LIST[4]]
+CORNERS = [AI_LIST[0], AI_LIST[2], AI_LIST[6], AI_LIST[8]]
+EDGES = [AI_LIST[1], AI_LIST[3], AI_LIST[5], AI_LIST[7]]
+ai_choice = ""
 
 
 def start():
@@ -29,7 +33,7 @@ def select_name(n_player):
     if n_player == "1":
         global name_p1
         name_p1 = input("\n"
-                     "Player 1 please enter your name: ")
+                        "Player 1 please enter your name: ")
         if name_p1 == "":
             name_p1 = "Mysterious Guy"
 
@@ -142,20 +146,12 @@ def play_ai(game_mode):
     print(f"    AI's Turn")
 
     if game_mode == "1":  # 65% AI Hard
-        if play_ai_hard(turn[0], ai_mark) in av_options:
-            ai_choice = secrets.choice(set_conditional_choice(65, play_ai_hard(turn[0], ai_mark)))
-        else:
-            ai_choice = secrets.choice(set_conditional_choice(65, play_ai_hard(turn[0], p_mark)))
+        ai_choice = secrets.choice(set_conditional_choice(65, play_ai_hard(turn[0])))
     elif game_mode == "2":  # 88% AI Hard
-        if play_ai_hard(turn[0], ai_mark) in av_options:
-            ai_choice = secrets.choice(set_conditional_choice(88, play_ai_hard(turn[0], ai_mark)))
-        else:
-            ai_choice = secrets.choice(set_conditional_choice(88, play_ai_hard(turn[0], p_mark)))
+        ai_choice = secrets.choice(set_conditional_choice(88, play_ai_hard(turn[0])))
+
     else:  # AI Hard
-        if play_ai_hard(turn[0], ai_mark) in av_options:
-            ai_choice = play_ai_hard(turn[0], ai_mark)
-        else:
-            ai_choice = play_ai_hard(turn[0], p_mark)
+        ai_choice = play_ai_hard(turn[0])
 
     av_options.remove(ai_choice)
     g_op.pop(int(ai_choice) - 1)
@@ -175,13 +171,10 @@ def set_conditional_choice(probability, ai_hard_choice):
     return av_options + prob_list
 
 
-def play_ai_hard(turn, mark):
-    global ai_choice
-    center = [AI_LIST[4]]
-    corners = [AI_LIST[0], AI_LIST[2], AI_LIST[6], AI_LIST[8]]
-    edges = [AI_LIST[1], AI_LIST[3], AI_LIST[5], AI_LIST[7]]
+def play_ai_hard(turn):
+
     if turn == "1":
-        ai_choice = secrets.choice(corners + center)
+        ai_choice = secrets.choice(CORNERS + CENTER)
 
         return ai_choice
 
@@ -189,169 +182,186 @@ def play_ai_hard(turn, mark):
         if g_op[4] == "":
             ai_choice = AI_LIST[4]
         else:
-            ai_choice = secrets.choice(corners)
+            ai_choice = secrets.choice(CORNERS)
 
         return ai_choice
 
     else:
-        # Win Moves / Block Moves
-        if (g_op[0], g_op[1]) == (mark, mark) and g_op[2] == "":
-            ai_choice = AI_LIST[2]
-        elif (g_op[0], g_op[4]) == (mark, mark) and g_op[8] == "":
-            ai_choice = AI_LIST[8]
-        elif (g_op[0], g_op[3]) == (mark, mark) and g_op[6] == "":
-            ai_choice = AI_LIST[6]
-        elif (g_op[1], g_op[2]) == (mark, mark) and g_op[0] == "":
-            ai_choice = AI_LIST[0]
-        elif (g_op[1], g_op[4]) == (mark, mark) and g_op[7] == "":
-            ai_choice = AI_LIST[7]
-        elif (g_op[2], g_op[4]) == (mark, mark) and g_op[6] == "":
-            ai_choice = AI_LIST[6]
-        elif (g_op[2], g_op[5]) == (mark, mark) and g_op[8] == "":
-            ai_choice = AI_LIST[8]
-        elif (g_op[3], g_op[4]) == (mark, mark) and g_op[5] == "":
-            ai_choice = AI_LIST[5]
-        elif (g_op[3], g_op[6]) == (mark, mark) and g_op[0] == "":
-            ai_choice = AI_LIST[0]
-        elif (g_op[4], g_op[5]) == (mark, mark) and g_op[3] == "":
-            ai_choice = AI_LIST[3]
-        elif (g_op[4], g_op[6]) == (mark, mark) and g_op[2] == "":
-            ai_choice = AI_LIST[2]
-        elif (g_op[4], g_op[7]) == (mark, mark) and g_op[1] == "":
-            ai_choice = AI_LIST[1]
-        elif (g_op[4], g_op[8]) == (mark, mark) and g_op[0] == "":
-            ai_choice = AI_LIST[0]
-        elif (g_op[5], g_op[8]) == (mark, mark) and g_op[2] == "":
-            ai_choice = AI_LIST[2]
-        elif (g_op[6], g_op[7]) == (mark, mark) and g_op[8] == "":
-            ai_choice = AI_LIST[8]
-        elif (g_op[7], g_op[8]) == (mark, mark) and g_op[6] == "":
-            ai_choice = AI_LIST[6]
+        choice_list = [check_win_or_block(ai_mark), check_win_or_block(p_mark), check_forks(ai_mark),
+                       check_forks(p_mark), check_other_moves(ai_mark), check_other_moves(p_mark)]
+        print(choice_list)
+        for i in choice_list:
+            if i in av_options:
+                return i
 
-        # Win Forks / Block Forks
-        elif (g_op[0], g_op[2]) == (mark, mark) and g_op[1] == "":
-            ai_choice = AI_LIST[1]
-        elif (g_op[0], g_op[8]) == (mark, mark) and g_op[4] == "":
-            ai_choice = AI_LIST[4]
-        elif (g_op[0], g_op[6]) == (mark, mark) and g_op[3] == "":
-            ai_choice = AI_LIST[3]
-        elif (g_op[1], g_op[7]) == (mark, mark) and g_op[4] == "":
-            ai_choice = AI_LIST[4]
-        elif (g_op[2], g_op[6]) == (mark, mark) and g_op[4] == "":
-            ai_choice = AI_LIST[4]
-        elif (g_op[2], g_op[8]) == (mark, mark) and g_op[5] == "":
-            ai_choice = AI_LIST[5]
-        elif (g_op[3], g_op[5]) == (mark, mark) and g_op[4] == "":
-            ai_choice = AI_LIST[4]
-        elif (g_op[6], g_op[8]) == (mark, mark) and g_op[7] == "":
-            ai_choice = AI_LIST[7]
 
-        # Others Win Forks / Block Forks
-        elif (g_op[1], g_op[3]) == (mark, mark) and (g_op[0], g_op[2], g_op[6]) == ("", "", ""):
-            ai_choice = AI_LIST[0]
-        elif (g_op[1], g_op[6]) == (mark, mark) and (g_op[0], g_op[2], g_op[3]) == ("", "", ""):
-            ai_choice = AI_LIST[0]
-        elif (g_op[2], g_op[3]) == (mark, mark) and (g_op[0], g_op[1], g_op[6]) == ("", "", ""):
-            ai_choice = AI_LIST[0]
-        elif (g_op[1], g_op[5]) == (mark, mark) and (g_op[0], g_op[2], g_op[8]) == ("", "", ""):
-            ai_choice = AI_LIST[2]
-        elif (g_op[0], g_op[5]) == (mark, mark) and (g_op[1], g_op[2], g_op[8]) == ("", "", ""):
-            ai_choice = AI_LIST[2]
-        elif (g_op[1], g_op[8]) == (mark, mark) and (g_op[0], g_op[2], g_op[5]) == ("", "", ""):
-            ai_choice = AI_LIST[2]
-        elif (g_op[3], g_op[7]) == (mark, mark) and (g_op[0], g_op[6], g_op[8]) == ("", "", ""):
-            ai_choice = AI_LIST[6]
-        elif (g_op[0], g_op[7]) == (mark, mark) and (g_op[3], g_op[6], g_op[8]) == ("", "", ""):
-            ai_choice = AI_LIST[6]
-        elif (g_op[3], g_op[8]) == (mark, mark) and (g_op[0], g_op[6], g_op[7]) == ("", "", ""):
-            ai_choice = AI_LIST[6]
-        elif (g_op[5], g_op[7]) == (mark, mark) and (g_op[2], g_op[6], g_op[8]) == ("", "", ""):
-            ai_choice = AI_LIST[8]
-        elif (g_op[2], g_op[7]) == (mark, mark) and (g_op[5], g_op[6], g_op[8]) == ("", "", ""):
-            ai_choice = AI_LIST[8]
-        elif (g_op[5], g_op[6]) == (mark, mark) and (g_op[2], g_op[7], g_op[8]) == ("", "", ""):
-            ai_choice = AI_LIST[8]
+def check_win_or_block(mark):
+    # Win Moves / Block Moves
+    if (g_op[0], g_op[1]) == (mark, mark) and g_op[2] == "":
+        return AI_LIST[2]
+    elif (g_op[0], g_op[4]) == (mark, mark) and g_op[8] == "":
+        return AI_LIST[8]
+    elif (g_op[0], g_op[3]) == (mark, mark) and g_op[6] == "":
+        return AI_LIST[6]
+    elif (g_op[1], g_op[2]) == (mark, mark) and g_op[0] == "":
+        return AI_LIST[0]
+    elif (g_op[1], g_op[4]) == (mark, mark) and g_op[7] == "":
+        return AI_LIST[7]
+    elif (g_op[2], g_op[4]) == (mark, mark) and g_op[6] == "":
+        return AI_LIST[6]
+    elif (g_op[2], g_op[5]) == (mark, mark) and g_op[8] == "":
+        return AI_LIST[8]
+    elif (g_op[3], g_op[4]) == (mark, mark) and g_op[5] == "":
+        return AI_LIST[5]
+    elif (g_op[3], g_op[6]) == (mark, mark) and g_op[0] == "":
+        return AI_LIST[0]
+    elif (g_op[4], g_op[5]) == (mark, mark) and g_op[3] == "":
+        return AI_LIST[3]
+    elif (g_op[4], g_op[6]) == (mark, mark) and g_op[2] == "":
+        return AI_LIST[2]
+    elif (g_op[4], g_op[7]) == (mark, mark) and g_op[1] == "":
+        return AI_LIST[1]
+    elif (g_op[4], g_op[8]) == (mark, mark) and g_op[0] == "":
+        return AI_LIST[0]
+    elif (g_op[5], g_op[8]) == (mark, mark) and g_op[2] == "":
+        return AI_LIST[2]
+    elif (g_op[6], g_op[7]) == (mark, mark) and g_op[8] == "":
+        return AI_LIST[8]
+    elif (g_op[7], g_op[8]) == (mark, mark) and g_op[6] == "":
+        return AI_LIST[6]
 
-        elif (g_op[0], g_op[8]) == (mark, mark) and (g_op[1], g_op[2], g_op[3], g_op[5], g_op[6], g_op[7]) == ("", "", "", "", "", ""):
-            ai_choice = secrets.choice(edges)
-        elif (g_op[2], g_op[6]) == (mark, mark) and (g_op[0], g_op[1], g_op[3], g_op[5], g_op[7], g_op[8]) == ("", "", "", "", "", ""):
-            ai_choice = secrets.choice(edges)
+    # Win Forks / Block Forks
+    elif (g_op[0], g_op[2]) == (mark, mark) and g_op[1] == "":
+        return AI_LIST[1]
+    elif (g_op[0], g_op[8]) == (mark, mark) and g_op[4] == "":
+        return AI_LIST[4]
+    elif (g_op[0], g_op[6]) == (mark, mark) and g_op[3] == "":
+        return AI_LIST[3]
+    elif (g_op[1], g_op[7]) == (mark, mark) and g_op[4] == "":
+        return AI_LIST[4]
+    elif (g_op[2], g_op[6]) == (mark, mark) and g_op[4] == "":
+        return AI_LIST[4]
+    elif (g_op[2], g_op[8]) == (mark, mark) and g_op[5] == "":
+        return AI_LIST[5]
+    elif (g_op[3], g_op[5]) == (mark, mark) and g_op[4] == "":
+        return AI_LIST[4]
+    elif (g_op[6], g_op[8]) == (mark, mark) and g_op[7] == "":
+        return AI_LIST[7]
 
-        # Others Moves
-        elif mark == p_mark:
-            # Search Forks
-            if g_op[0] not in ("", mark) and (g_op[1], g_op[2]) == ("", ""):
-                ai_choice = AI_LIST[2]
-            elif g_op[0] not in ("", mark) and (g_op[4], g_op[8]) == ("", ""):
-                ai_choice = AI_LIST[8]
-            elif g_op[0] not in ("", mark) and (g_op[3], g_op[6]) == ("", ""):
-                ai_choice = AI_LIST[6]
-            elif g_op[1] not in ("", mark) and (g_op[4], g_op[7]) == ("", ""):
-                ai_choice = AI_LIST[7]
-            elif g_op[2] not in ("", mark) and (g_op[0], g_op[1]) == ("", ""):
-                ai_choice = AI_LIST[0]
-            elif g_op[2] not in ("", mark) and (g_op[4], g_op[6]) == ("", ""):
-                ai_choice = AI_LIST[6]
-            elif g_op[2] not in ("", mark) and (g_op[5], g_op[8]) == ("", ""):
-                ai_choice = AI_LIST[8]
-            elif g_op[3] not in ("", mark) and (g_op[4], g_op[5]) == ("", ""):
-                ai_choice = AI_LIST[5]
-            elif g_op[4] not in ("", mark) and (g_op[0], g_op[8]) == ("", ""):
-                ai_choice = secrets.choice([AI_LIST[0], AI_LIST[8]])
-            elif g_op[4] not in ("", mark) and (g_op[1], g_op[7]) == ("", ""):
-                ai_choice = secrets.choice([AI_LIST[1], AI_LIST[7]])
-            elif g_op[4] not in ("", mark) and (g_op[2], g_op[6]) == ("", ""):
-                ai_choice = secrets.choice([AI_LIST[2], AI_LIST[6]])
-            elif g_op[4] not in ("", mark) and (g_op[3], g_op[5]) == ("", ""):
-                ai_choice = secrets.choice([AI_LIST[3], AI_LIST[5]])
-            elif g_op[5] not in ("", mark) and (g_op[3], g_op[4]) == ("", ""):
-                ai_choice = AI_LIST[3]
-            elif g_op[6] not in ("", mark) and (g_op[0], g_op[3]) == ("", ""):
-                ai_choice = AI_LIST[0]
-            elif g_op[6] not in ("", mark) and (g_op[2], g_op[4]) == ("", ""):
-                ai_choice = AI_LIST[2]
-            elif g_op[6] not in ("", mark) and (g_op[7], g_op[8]) == ("", ""):
-                ai_choice = AI_LIST[8]
-            elif g_op[7] not in ("", mark) and (g_op[1], g_op[4]) == ("", ""):
-                ai_choice = AI_LIST[1]
-            elif g_op[8] not in ("", mark) and (g_op[2], g_op[5]) == ("", ""):
-                ai_choice = AI_LIST[2]
-            elif g_op[8] not in ("", mark) and (g_op[0], g_op[4]) == ("", ""):
-                ai_choice = AI_LIST[0]
-            elif g_op[8] not in ("", mark) and (g_op[6], g_op[7]) == ("", ""):
-                ai_choice = AI_LIST[6]
 
-            # Opposite Corner
-            elif g_op[0] == mark and g_op[8] == "":
-                ai_choice = AI_LIST[8]
-            elif g_op[2] == mark and g_op[6] == "":
-                ai_choice = AI_LIST[6]
-            elif g_op[6] == mark and g_op[2] == "":
-                ai_choice = AI_LIST[2]
-            elif g_op[8] == mark and g_op[0] == "":
-                ai_choice = AI_LIST[0]
+def check_forks(mark):
+    global ai_choice
+    # Others Win Forks / Block Forks
+    if (g_op[1], g_op[3]) == (mark, mark) and (g_op[0], g_op[2], g_op[6]) == ("", "", ""):
+        ai_choice = AI_LIST[0]
+    elif (g_op[1], g_op[6]) == (mark, mark) and (g_op[0], g_op[2], g_op[3]) == ("", "", ""):
+        ai_choice = AI_LIST[0]
+    elif (g_op[2], g_op[3]) == (mark, mark) and (g_op[0], g_op[1], g_op[6]) == ("", "", ""):
+        ai_choice = AI_LIST[0]
+    elif (g_op[1], g_op[5]) == (mark, mark) and (g_op[0], g_op[2], g_op[8]) == ("", "", ""):
+        ai_choice = AI_LIST[2]
+    elif (g_op[0], g_op[5]) == (mark, mark) and (g_op[1], g_op[2], g_op[8]) == ("", "", ""):
+        ai_choice = AI_LIST[2]
+    elif (g_op[1], g_op[8]) == (mark, mark) and (g_op[0], g_op[2], g_op[5]) == ("", "", ""):
+        ai_choice = AI_LIST[2]
+    elif (g_op[3], g_op[7]) == (mark, mark) and (g_op[0], g_op[6], g_op[8]) == ("", "", ""):
+        ai_choice = AI_LIST[6]
+    elif (g_op[0], g_op[7]) == (mark, mark) and (g_op[3], g_op[6], g_op[8]) == ("", "", ""):
+        ai_choice = AI_LIST[6]
+    elif (g_op[3], g_op[8]) == (mark, mark) and (g_op[0], g_op[6], g_op[7]) == ("", "", ""):
+        ai_choice = AI_LIST[6]
+    elif (g_op[5], g_op[7]) == (mark, mark) and (g_op[2], g_op[6], g_op[8]) == ("", "", ""):
+        ai_choice = AI_LIST[8]
+    elif (g_op[2], g_op[7]) == (mark, mark) and (g_op[5], g_op[6], g_op[8]) == ("", "", ""):
+        ai_choice = AI_LIST[8]
+    elif (g_op[5], g_op[6]) == (mark, mark) and (g_op[2], g_op[7], g_op[8]) == ("", "", ""):
+        ai_choice = AI_LIST[8]
 
-            # Corner
-            elif g_op[0] == "":
-                ai_choice = AI_LIST[0]
-            elif g_op[2] == "":
-                ai_choice = AI_LIST[2]
-            elif g_op[6] == "":
-                ai_choice = AI_LIST[6]
-            elif g_op[8] == "":
-                ai_choice = AI_LIST[8]
+    elif (g_op[0], g_op[8]) == (mark, mark) and (g_op[1], g_op[2], g_op[3], g_op[5], g_op[6], g_op[7]) == ("", "", "", "", "", ""):
+        ai_choice = secrets.choice(EDGES)
+    elif (g_op[2], g_op[6]) == (mark, mark) and (g_op[0], g_op[1], g_op[3], g_op[5], g_op[7], g_op[8]) == ("", "", "", "", "", ""):
+        ai_choice = secrets.choice(EDGES)
 
-            # Edge
-            elif g_op[1] == "":
-                ai_choice = AI_LIST[1]
-            elif g_op[3] == "":
-                ai_choice = AI_LIST[3]
-            elif g_op[5] == "":
-                ai_choice = AI_LIST[5]
-            elif g_op[7] == "":
-                ai_choice = AI_LIST[7]
+    return ai_choice
 
-        return ai_choice
+
+def check_other_moves(mark):
+    global ai_choice
+
+    # Search Forks
+    if g_op[0] not in ("", mark) and (g_op[1], g_op[2]) == ("", ""):
+        ai_choice = AI_LIST[2]
+    elif g_op[0] not in ("", mark) and (g_op[4], g_op[8]) == ("", ""):
+        ai_choice = AI_LIST[8]
+    elif g_op[0] not in ("", mark) and (g_op[3], g_op[6]) == ("", ""):
+        ai_choice = AI_LIST[6]
+    elif g_op[1] not in ("", mark) and (g_op[4], g_op[7]) == ("", ""):
+        ai_choice = AI_LIST[7]
+    elif g_op[2] not in ("", mark) and (g_op[0], g_op[1]) == ("", ""):
+        ai_choice = AI_LIST[0]
+    elif g_op[2] not in ("", mark) and (g_op[4], g_op[6]) == ("", ""):
+        ai_choice = AI_LIST[6]
+    elif g_op[2] not in ("", mark) and (g_op[5], g_op[8]) == ("", ""):
+        ai_choice = AI_LIST[8]
+    elif g_op[3] not in ("", mark) and (g_op[4], g_op[5]) == ("", ""):
+        ai_choice = AI_LIST[5]
+    elif g_op[4] not in ("", mark) and (g_op[0], g_op[8]) == ("", ""):
+        ai_choice = secrets.choice([AI_LIST[0], AI_LIST[8]])
+    elif g_op[4] not in ("", mark) and (g_op[1], g_op[7]) == ("", ""):
+        ai_choice = secrets.choice([AI_LIST[1], AI_LIST[7]])
+    elif g_op[4] not in ("", mark) and (g_op[2], g_op[6]) == ("", ""):
+        ai_choice = secrets.choice([AI_LIST[2], AI_LIST[6]])
+    elif g_op[4] not in ("", mark) and (g_op[3], g_op[5]) == ("", ""):
+        ai_choice = secrets.choice([AI_LIST[3], AI_LIST[5]])
+    elif g_op[5] not in ("", mark) and (g_op[3], g_op[4]) == ("", ""):
+        ai_choice = AI_LIST[3]
+    elif g_op[6] not in ("", mark) and (g_op[0], g_op[3]) == ("", ""):
+        ai_choice = AI_LIST[0]
+    elif g_op[6] not in ("", mark) and (g_op[2], g_op[4]) == ("", ""):
+        ai_choice = AI_LIST[2]
+    elif g_op[6] not in ("", mark) and (g_op[7], g_op[8]) == ("", ""):
+        ai_choice = AI_LIST[8]
+    elif g_op[7] not in ("", mark) and (g_op[1], g_op[4]) == ("", ""):
+        ai_choice = AI_LIST[1]
+    elif g_op[8] not in ("", mark) and (g_op[2], g_op[5]) == ("", ""):
+        ai_choice = AI_LIST[2]
+    elif g_op[8] not in ("", mark) and (g_op[0], g_op[4]) == ("", ""):
+        ai_choice = AI_LIST[0]
+    elif g_op[8] not in ("", mark) and (g_op[6], g_op[7]) == ("", ""):
+        ai_choice = AI_LIST[6]
+
+    # Opposite Corner
+    elif g_op[0] == mark and g_op[8] == "":
+        ai_choice = AI_LIST[8]
+    elif g_op[2] == mark and g_op[6] == "":
+        ai_choice = AI_LIST[6]
+    elif g_op[6] == mark and g_op[2] == "":
+        ai_choice = AI_LIST[2]
+    elif g_op[8] == mark and g_op[0] == "":
+        ai_choice = AI_LIST[0]
+
+    # Corner
+    elif g_op[0] == "":
+        ai_choice = AI_LIST[0]
+    elif g_op[2] == "":
+        ai_choice = AI_LIST[2]
+    elif g_op[6] == "":
+        ai_choice = AI_LIST[6]
+    elif g_op[8] == "":
+        ai_choice = AI_LIST[8]
+
+    # Edge
+    elif g_op[1] == "":
+        ai_choice = AI_LIST[1]
+    elif g_op[3] == "":
+        ai_choice = AI_LIST[3]
+    elif g_op[5] == "":
+        ai_choice = AI_LIST[5]
+    elif g_op[7] == "":
+        ai_choice = AI_LIST[7]
+
+    return ai_choice
+
 
 def win(n_player):
     if len(av_options) <= 4:
@@ -413,5 +423,4 @@ def tie_message():
 
 if __name__ == "__main__":
     start()
-
 
