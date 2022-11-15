@@ -8,14 +8,18 @@ def create_table():
     query = '''CREATE TABLE IF NOT EXISTS Score(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME VARCHAR(80) UNIQUE,
-        AI_EASY_GAMES INT,
-        AI_EASY_WINS INT,
-        AI_MEDIUM_GAMES INT,
-        AI_MEDIUM_WINS INT,
-        AI_HARD_GAMES INT,
-        AI_HARD_WINS INT,
-        PVP_GAMES INT,
-        PVP_WINS INT
+        AI_EASY_WINS INT DEFAULT 0,
+        AI_EASY_LOSES INT DEFAULT 0,
+        AI_EASY_TIES INT DEFAULT 0,
+        AI_MEDIUM_WINS INT DEFAULT 0,
+        AI_MEDIUM_LOSES INT DEFAULT 0,
+        AI_MEDIUM TIES INT DEFAULT 0,
+        AI_HARD_WINS INT DEFAULT 0,
+        AI_HARD_LOSES INT DEFAULT 0,
+        AI_HARD_TIES INT DEFAULT 0,
+        PVP_WINS INT DEFAULT 0,
+        PVP_LOSES INT DEFAULT 0,
+        PVP_TIES INT DEFAULT 0
 );'''
     cursor.execute(query)
 
@@ -39,12 +43,31 @@ def return_data():
     connection = sqlite3.connect("data.db")
     cursor = connection.cursor()
 
-    query = '''SELECT * FROM Score WHERE name = "Luis"'''
-    cursor.execute(query)
-    alumno_mostrar = cursor.fetchall()
+    query_select = f'''SELECT * FROM Score WHERE NAME = '';'''
+    cursor.execute(query_select)
+    a = cursor.fetchall()
     connection.commit()
 
-    print("El alumno buscado es:", alumno_mostrar[0][1], alumno_mostrar[0][2])
+    print(a)
+
+    cursor.close()
+    connection.close()
+
+
+def update_player_score(p_name, g_mode, result):
+    connection = sqlite3.connect("data.db")
+    cursor = connection.cursor()
+
+    category = {
+        "1": ['AI_EASY_WINS', 'AI_EASY_LOSES', 'AI_EASY_TIES'],
+        "2": ['AI_MEDIUM_WINS', 'AI_MEDIUM_LOSES', 'AI_MEDIUM_TIES'],
+        "3": ['AI_HARD_WINS', 'AI_HARD_LOSES', 'AI_HARD_TIES'],
+        "4": ['PVP_WINS', 'PVP_LOSES', 'PVP_TIES']
+    }
+
+    query_update = f'''UPDATE Score SET {category[g_mode][result]} = {category[g_mode][result]} + 1 WHERE NAME = '{p_name}';'''
+    cursor.execute(query_update)
+    connection.commit()
 
     cursor.close()
     connection.close()

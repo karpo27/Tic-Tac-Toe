@@ -139,7 +139,7 @@ def play_player(n_player):
         print("Please select a valid option ")
         play_player(n_player)
 
-    time.sleep(0.5)
+    time.sleep(0.4)
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     win(n_player)
     turn.pop(0)
@@ -168,7 +168,7 @@ def play_ai(game_mode):
     g_op.pop(int(ai_choice) - 1)
     g_op.insert(int(ai_choice) - 1, ai_mark)
 
-    time.sleep(0.5)
+    time.sleep(0.4)
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     win("1")
     turn.pop(0)
@@ -412,22 +412,43 @@ def win_message(n_player):
 
     if g_op.count("X") > g_op.count("O") and p_mark == "X":
         print(player_win)
+        if game_mode == "4":
+            score_db.update_player_score(dictionary["1"][0], game_mode, 0)
+            score_db.update_player_score(dictionary["2"][0], game_mode, 1)
+        else:
+            score_db.update_player_score(dictionary["1"][0], game_mode, 0)
     elif g_op.count("X") > g_op.count("O") and ai_mark == "X":
         if game_mode == "4":
             print(player_win)
+            score_db.update_player_score(dictionary["1"][0], game_mode, 1)
+            score_db.update_player_score(dictionary["2"][0], game_mode, 0)
         else:
             print(ai_win)
+            score_db.update_player_score(dictionary[n_player][0], game_mode, 1)
     elif g_op.count("O") == g_op.count("X") and p_mark == "O":
         print(player_win)
+        if game_mode == "4":
+            score_db.update_player_score(dictionary["1"][0], game_mode, 0)
+            score_db.update_player_score(dictionary["2"][0], game_mode, 1)
+        else:
+            score_db.update_player_score(dictionary["1"][0], game_mode, 0)
     elif g_op.count("O") == g_op.count("X") and ai_mark == "O":
         if game_mode == "4":
             print(player_win)
+            score_db.update_player_score(dictionary["2"][0], game_mode, 0)
+            score_db.update_player_score(dictionary["1"][0], game_mode, 1)
         else:
             print(ai_win)
+            score_db.update_player_score(dictionary[n_player][0], game_mode, 1)
 
 
 def tie_message():
     print(" Tie! ")
+    if game_mode == "4":
+        score_db.update_player_score(dictionary["1"][0], game_mode, 2)
+        score_db.update_player_score(dictionary["2"][0], game_mode, 2)
+    else:
+        score_db.update_player_score(dictionary["1"][0], game_mode, 2)
 
 
 def play_again():
