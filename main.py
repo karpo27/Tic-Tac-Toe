@@ -42,6 +42,8 @@ def select_name(n_player):
                         "Player 1 please enter your name: ")
         if name_p1 == "":
             name_p1 = "Mysterious Guy"
+        else:
+            score_db.insert_player_name(name_p1)
 
         print(f"\n"
               f"Hello {name_p1}!")
@@ -55,6 +57,8 @@ def select_name(n_player):
                         "Player 2 please enter your name: ")
         if name_p2 == "":
             name_p2 = "Mysterious Guy's partner"
+        else:
+            score_db.insert_player_name(name_p2)
 
         print(f"\n"
               f"Hello {name_p2}!")
