@@ -1,5 +1,6 @@
 import table
 import secrets
+import time
 
 av_options = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 g_op = ["", "", "", "", "", "", "", "", ""]
@@ -129,6 +130,7 @@ def play_player(n_player):
         print("Please select a valid option ")
         play_player(n_player)
 
+    time.sleep(0.5)
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     win(n_player)
     turn.pop(0)
@@ -157,6 +159,7 @@ def play_ai(game_mode):
     g_op.pop(int(ai_choice) - 1)
     g_op.insert(int(ai_choice) - 1, ai_mark)
 
+    time.sleep(0.5)
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     win("1")
     turn.pop(0)
@@ -188,7 +191,6 @@ def play_ai_hard(n_turn):
     else:
         choice_list = [check_win_or_block(ai_mark), check_win_or_block(p_mark), check_forks(ai_mark),
                        check_forks(p_mark), check_other_moves(ai_mark), check_other_moves(p_mark)]
-        print(choice_list)
         for i in choice_list:
             if i in av_options:
                 return i
@@ -366,33 +368,33 @@ def win(n_player):
     if len(av_options) <= 4:
         if g_op[0] == g_op[1] and g_op[0] == g_op[2] and (g_op[0], g_op[1], g_op[2]) != ("", "", ""):
             win_message(n_player)
-            exit()
+            play_again()
         elif g_op[0] == g_op[3] and g_op[0] == g_op[6] and (g_op[0], g_op[3], g_op[6]) != ("", "", ""):
             win_message(n_player)
-            exit()
+            play_again()
         elif g_op[0] == g_op[4] and g_op[0] == g_op[8] and (g_op[0], g_op[4], g_op[8]) != ("", "", ""):
             win_message(n_player)
-            exit()
+            play_again()
         elif g_op[1] == g_op[4] and g_op[1] == g_op[7] and (g_op[1], g_op[4], g_op[7]) != ("", "", ""):
             win_message(n_player)
-            exit()
+            play_again()
         elif g_op[2] == g_op[5] and g_op[2] == g_op[8] and (g_op[2], g_op[5], g_op[8]) != ("", "", ""):
             win_message(n_player)
-            exit()
+            play_again()
         elif g_op[2] == g_op[4] and g_op[2] == g_op[6] and (g_op[2], g_op[4], g_op[6]) != ("", "", ""):
             win_message(n_player)
-            exit()
+            play_again()
         elif g_op[3] == g_op[4] and g_op[3] == g_op[5] and (g_op[3], g_op[4], g_op[5]) != ("", "", ""):
             win_message(n_player)
-            exit()
+            play_again()
         elif g_op[6] == g_op[7] and g_op[6] == g_op[8] and (g_op[6], g_op[7], g_op[8]) != ("", "", ""):
             win_message(n_player)
-            exit()
+            play_again()
 
     if len(av_options) == 0:
         if g_op.count("X") == g_op.count("O") + 1:
             tie_message()
-            exit()
+            play_again()
 
 
 def win_message(n_player):
@@ -413,6 +415,32 @@ def win_message(n_player):
             print(player_win)
         else:
             print(ai_win)
+
+
+def play_again():
+    av_options.clear()
+    g_op.clear()
+    turn.clear()
+
+    av_options.extend(["1", "2", "3", "4", "5", "6", "7", "8", "9"])
+    g_op.extend(["", "", "", "", "", "", "", "", ""])
+    turn.extend(["1", "2", "3", "4", "5", "6", "7", "8", "9"])
+
+    final_choice = input("\n"
+                         "Do you want yo play again?\n"
+                         "1- Yes, same game mode\n"
+                         "2- Yes, but change game mode\n"
+                         "3- No, thanks!\n"
+                         "")
+
+    if final_choice == "1":
+        select_mark()
+    elif final_choice == "2":
+        select_game_mode()
+    elif final_choice == "3":
+        exit()
+    else:
+        print("Please select a valid option ")
 
 
 def tie_message():
