@@ -1,6 +1,9 @@
 import table
+import score_db
+
 import secrets
 import time
+import sqlite3
 
 av_options = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 g_op = ["", "", "", "", "", "", "", "", ""]
@@ -13,6 +16,8 @@ ai_choice = ""
 
 
 def start():
+    score_db.create_table()
+
     print("\n"
           "Welcome to Tic Tac Toe game!\n"
           "")
@@ -417,6 +422,10 @@ def win_message(n_player):
             print(ai_win)
 
 
+def tie_message():
+    print(" Tie! ")
+
+
 def play_again():
     av_options.clear()
     g_op.clear()
@@ -441,10 +450,6 @@ def play_again():
         exit()
     else:
         print("Please select a valid option ")
-
-
-def tie_message():
-    print(" Tie! ")
 
 
 if __name__ == "__main__":
