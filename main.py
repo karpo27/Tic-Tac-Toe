@@ -467,17 +467,22 @@ def play_again():
                          "3- No, thanks!\n"
                          "4- Show my score")
 
-    if final_choice == "1":
+    if final_choice == "4" and name_p1 != "Mysterious Guy":
+        score_db.show_data(name_p1)
+        play_again()
+    elif final_choice == "4" and name_p1 == "Mysterious Guy":
+        print("\n"
+              "If you are playing nameless, you have no stats! ")
+        play_again()
+    elif final_choice == "1":
         select_mark()
     elif final_choice == "2":
         select_game_mode()
     elif final_choice == "3":
         exit()
-    elif final_choice == "4":
-        score_db.show_data(name_p1)
-        play_again()
     else:
-        print("Please select a valid option ")
+        print("\n"
+              "Please select a valid option ")
         play_again()
 
 
