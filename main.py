@@ -316,14 +316,7 @@ def check_other_moves(mark):
         ai_choice = AI_LIST[8]
     elif g_op[3] not in ("", mark) and (g_op[4], g_op[5]) == ("", ""):
         ai_choice = AI_LIST[5]
-    elif g_op[4] not in ("", mark) and (g_op[0], g_op[8]) == ("", ""):
-        ai_choice = secrets.choice([AI_LIST[0], AI_LIST[8]])
-    elif g_op[4] not in ("", mark) and (g_op[1], g_op[7]) == ("", ""):
-        ai_choice = secrets.choice([AI_LIST[1], AI_LIST[7]])
-    elif g_op[4] not in ("", mark) and (g_op[2], g_op[6]) == ("", ""):
-        ai_choice = secrets.choice([AI_LIST[2], AI_LIST[6]])
-    elif g_op[4] not in ("", mark) and (g_op[3], g_op[5]) == ("", ""):
-        ai_choice = secrets.choice([AI_LIST[3], AI_LIST[5]])
+
     elif g_op[5] not in ("", mark) and (g_op[3], g_op[4]) == ("", ""):
         ai_choice = AI_LIST[3]
     elif g_op[6] not in ("", mark) and (g_op[0], g_op[3]) == ("", ""):
@@ -340,6 +333,15 @@ def check_other_moves(mark):
         ai_choice = AI_LIST[0]
     elif g_op[8] not in ("", mark) and (g_op[6], g_op[7]) == ("", ""):
         ai_choice = AI_LIST[6]
+
+    elif g_op[4] not in ("", mark) and (g_op[0], g_op[8]) == ("", ""):
+        ai_choice = secrets.choice([AI_LIST[0], AI_LIST[8]])
+    elif g_op[4] not in ("", mark) and (g_op[1], g_op[7]) == ("", ""):
+        ai_choice = secrets.choice([AI_LIST[1], AI_LIST[7]])
+    elif g_op[4] not in ("", mark) and (g_op[2], g_op[6]) == ("", ""):
+        ai_choice = secrets.choice([AI_LIST[2], AI_LIST[6]])
+    elif g_op[4] not in ("", mark) and (g_op[3], g_op[5]) == ("", ""):
+        ai_choice = secrets.choice([AI_LIST[3], AI_LIST[5]])
 
     # Opposite Corner
     elif g_op[0] == mark and g_op[8] == "":
@@ -466,7 +468,8 @@ def play_again():
                          "1- Yes, same game mode\n"
                          "2- Yes, but change game mode\n"
                          "3- No, thanks!\n"
-                         "4- Show my score")
+                         "4- Show my score\n"
+                         "")
 
     if final_choice == "4" and name_p1 != "Mysterious Guy":
         score_db.show_data(name_p1)
