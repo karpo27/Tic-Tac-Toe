@@ -13,7 +13,7 @@ def create_table():
         AI_EASY_TIES INT DEFAULT 0,
         AI_MEDIUM_WINS INT DEFAULT 0,
         AI_MEDIUM_LOSES INT DEFAULT 0,
-        AI_MEDIUM TIES INT DEFAULT 0,
+        AI_MEDIUM_TIES INT DEFAULT 0,
         AI_HARD_WINS INT DEFAULT 0,
         AI_HARD_LOSES INT DEFAULT 0,
         AI_HARD_TIES INT DEFAULT 0,
@@ -39,16 +39,38 @@ def insert_player_name(p_name):
     connection.close()
 
 
-def return_data():
+def show_data(p_name):
     connection = sqlite3.connect("data.db")
     cursor = connection.cursor()
 
-    query_select = f'''SELECT * FROM Score WHERE NAME = '';'''
+    query_select = f'''SELECT * FROM Score WHERE NAME = '{p_name}';'''
     cursor.execute(query_select)
-    a = cursor.fetchall()
+    data = cursor.fetchall()
     connection.commit()
 
-    print(a)
+    print("\n"
+          f"Statistics - Player: {p_name}\n"
+          "\n"
+          "vs AI Easy Mode:\n"
+          f"Wins {data[0][2]}\n"
+          f"Loses {data[0][3]}\n"
+          f"Ties {data[0][4]}\n"
+          "\n"
+          "vs AI Medium Mode:\n"
+          f"Wins {data[0][5]}\n"
+          f"Loses {data[0][6]}\n"
+          f"Ties {data[0][7]}\n"
+          "\n"
+          "vs AI Hard Mode:\n"
+          f"Wins {data[0][8]}\n"
+          f"Loses {data[0][9]}\n"
+          f"Ties {data[0][10]}\n"
+          "\n"
+          "vs Player Mode:\n"
+          f"Wins {data[0][11]}\n"
+          f"Loses {data[0][12]}\n"
+          f"Ties {data[0][13]}\n"
+          "")
 
     cursor.close()
     connection.close()

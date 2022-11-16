@@ -465,7 +465,7 @@ def play_again():
                          "1- Yes, same game mode\n"
                          "2- Yes, but change game mode\n"
                          "3- No, thanks!\n"
-                         "")
+                         "4- Show my score")
 
     if final_choice == "1":
         select_mark()
@@ -473,8 +473,12 @@ def play_again():
         select_game_mode()
     elif final_choice == "3":
         exit()
+    elif final_choice == "4":
+        score_db.show_data(name_p1)
+        play_again()
     else:
         print("Please select a valid option ")
+        play_again()
 
 
 if __name__ == "__main__":
