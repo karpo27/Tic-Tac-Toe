@@ -1,13 +1,15 @@
+# Scripts:
 import table
 import score_db
 
+# Modules:
 import secrets
 import time
-import sqlite3
 
 av_options = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 g_op = ["", "", "", "", "", "", "", "", ""]
 turn = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
 AI_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 CENTER = [AI_LIST[4]]
 CORNERS = [AI_LIST[0], AI_LIST[2], AI_LIST[6], AI_LIST[8]]
@@ -69,7 +71,7 @@ def select_name(n_player):
 
 def select_game_mode():
     global game_mode
-    game_mode = input(f"\n"
+    game_mode = input("\n"
                      "Please select the game mode:\n"
                      "1- Easy\n"
                      "2- Medium\n"
@@ -90,7 +92,7 @@ def select_mark():
     global p_mark
     global ai_mark
     p_mark = input("\n"
-                   f"{name_p1} choose 'X' or 'O' ""(remember 'X' moves first)\n"
+                   f"{name_p1} choose 'X' or 'O' (remember 'X' moves first)\n"
                    "")
 
     x_choice = ["x", "X", "1"]
@@ -123,7 +125,7 @@ def select_mark():
 def play_player(n_player):
     if len(av_options) == 9:
         print("\n"
-              f"    {dictionary[n_player][0]}'s Turn")
+              f"  »  {dictionary[n_player][0]}'s Turn")
         print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     else:
         print(f"    {dictionary[n_player][0]}'s Turn")
@@ -154,13 +156,12 @@ def play_player(n_player):
 
 
 def play_ai(game_mode):
-    print("    AI's Turn")
+    print("  »  AI's Turn")
 
     if game_mode == "1":  # 65% AI Hard
         ai_choice = secrets.choice(set_conditional_choice(65, play_ai_hard(turn[0])))
     elif game_mode == "2":  # 88% AI Hard
         ai_choice = secrets.choice(set_conditional_choice(88, play_ai_hard(turn[0])))
-
     else:  # AI Hard
         ai_choice = play_ai_hard(turn[0])
 
