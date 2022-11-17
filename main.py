@@ -143,7 +143,7 @@ def play_player(n_player):
 
     time.sleep(0.4)
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
-    win(n_player)
+    check_win(n_player)
     turn.pop(0)
 
     if game_mode == "4":
@@ -171,7 +171,7 @@ def play_ai(game_mode):
 
     time.sleep(0.4)
     print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
-    win("1")
+    check_win("1")
     turn.pop(0)
     play_player("1")
 
@@ -198,7 +198,7 @@ def play_ai_hard(n_turn):
         choice_list = [check_win_or_block(ai_mark), check_win_or_block(p_mark), check_forks(ai_mark),
                        check_forks(p_mark), check_other_moves(ai_mark), check_other_moves(p_mark),
                        check_final_moves(ai_mark), check_final_moves(p_mark)]
-        print(choice_list)
+
         for i in choice_list:
             if i in av_options:
                 return i
@@ -348,23 +348,23 @@ def check_other_moves(mark):
     elif g_op[4] not in ("", mark) and (g_op[3], g_op[5]) == ("", ""):
         ai_choice = secrets.choice([AI_LIST[3], AI_LIST[5]])
 
-    # Opposite Corner
-    elif g_op[0] == mark and g_op[8] == "":
-        ai_choice = AI_LIST[8]
-    elif g_op[2] == mark and g_op[6] == "":
-        ai_choice = AI_LIST[6]
-    elif g_op[6] == mark and g_op[2] == "":
-        ai_choice = AI_LIST[2]
-    elif g_op[8] == mark and g_op[0] == "":
-        ai_choice = AI_LIST[0]
-
     return ai_choice
 
 
 def check_final_moves(mark):
     global ai_choice
+    # Opposite Corner
+    if g_op[0] == mark and g_op[8] == "":
+        return AI_LIST[8]
+    elif g_op[2] == mark and g_op[6] == "":
+        return AI_LIST[6]
+    elif g_op[6] == mark and g_op[2] == "":
+        return AI_LIST[2]
+    elif g_op[8] == mark and g_op[0] == "":
+        return AI_LIST[0]
+
     # Corner
-    if g_op[0] == "":
+    elif g_op[0] == "":
         ai_choice = AI_LIST[0]
     elif g_op[2] == "":
         ai_choice = AI_LIST[2]
@@ -386,37 +386,28 @@ def check_final_moves(mark):
     return ai_choice
 
 
-def win(n_player):
+def check_win(n_player):
     if len(av_options) <= 4:
         if g_op[0] == g_op[1] and g_op[0] == g_op[2] and (g_op[0], g_op[1], g_op[2]) != ("", "", ""):
             win_message(n_player)
-            play_again()
         elif g_op[0] == g_op[3] and g_op[0] == g_op[6] and (g_op[0], g_op[3], g_op[6]) != ("", "", ""):
             win_message(n_player)
-            play_again()
         elif g_op[0] == g_op[4] and g_op[0] == g_op[8] and (g_op[0], g_op[4], g_op[8]) != ("", "", ""):
             win_message(n_player)
-            play_again()
         elif g_op[1] == g_op[4] and g_op[1] == g_op[7] and (g_op[1], g_op[4], g_op[7]) != ("", "", ""):
             win_message(n_player)
-            play_again()
         elif g_op[2] == g_op[5] and g_op[2] == g_op[8] and (g_op[2], g_op[5], g_op[8]) != ("", "", ""):
             win_message(n_player)
-            play_again()
         elif g_op[2] == g_op[4] and g_op[2] == g_op[6] and (g_op[2], g_op[4], g_op[6]) != ("", "", ""):
             win_message(n_player)
-            play_again()
         elif g_op[3] == g_op[4] and g_op[3] == g_op[5] and (g_op[3], g_op[4], g_op[5]) != ("", "", ""):
             win_message(n_player)
-            play_again()
         elif g_op[6] == g_op[7] and g_op[6] == g_op[8] and (g_op[6], g_op[7], g_op[8]) != ("", "", ""):
             win_message(n_player)
-            play_again()
 
     if len(av_options) == 0:
         if g_op.count("X") == g_op.count("O") + 1:
             tie_message()
-            play_again()
 
 
 def win_message(n_player):
@@ -454,6 +445,7 @@ def win_message(n_player):
             print(ai_win)
             score_db.update_player_score(dictionary[n_player][0], game_mode, 1)
 
+    play_again()
 
 def tie_message():
     print(" Tie! ")
@@ -462,6 +454,8 @@ def tie_message():
         score_db.update_player_score(dictionary["2"][0], game_mode, 2)
     else:
         score_db.update_player_score(dictionary["1"][0], game_mode, 2)
+
+    play_again()
 
 
 def play_again():
