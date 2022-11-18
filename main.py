@@ -1,6 +1,7 @@
 # Scripts:
 import table
-import score_db
+from score_db import *
+from constants import *
 
 # Modules:
 import secrets
@@ -9,26 +10,11 @@ import time
 av_options = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 g_op = ["", "", "", "", "", "", "", "", ""]
 turn = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-
-AI_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-CENTER = [AI_LIST[4]]
-CORNERS = [AI_LIST[0], AI_LIST[2], AI_LIST[6], AI_LIST[8]]
-EDGES = [AI_LIST[1], AI_LIST[3], AI_LIST[5], AI_LIST[7]]
-R1 = [AI_LIST[0], AI_LIST[1], AI_LIST[2]]
-R2 = [AI_LIST[3], AI_LIST[4], AI_LIST[5]]
-R3 = [AI_LIST[6], AI_LIST[7], AI_LIST[8]]
-C1 = [AI_LIST[0], AI_LIST[3], AI_LIST[6]]
-C2 = [AI_LIST[1], AI_LIST[4], AI_LIST[7]]
-C3 = [AI_LIST[2], AI_LIST[5], AI_LIST[8]]
-D1 = [AI_LIST[0], AI_LIST[4], AI_LIST[8]]
-D2 = [AI_LIST[2], AI_LIST[4], AI_LIST[6]]
-R = [R1, R3]
-ALL_OP = [R1, R2, R3, C1, C2, C3, D1, D2]
 ai_choice = ""
 
 
 def start():
-    score_db.create_table()
+    create_table()
 
     print("\n"
           "Welcome to Tic Tac Toe game!\n"
@@ -55,7 +41,7 @@ def select_name(n_player):
         if name_p1 == "":
             name_p1 = "Mysterious Guy"
         else:
-            score_db.insert_player_name(name_p1)
+            insert_player_name(name_p1)
 
         print(f"\n"
               f"Hello {name_p1}!")
@@ -70,7 +56,7 @@ def select_name(n_player):
         if name_p2 == "":
             name_p2 = "Mysterious Guy's partner"
         else:
-            score_db.insert_player_name(name_p2)
+            insert_player_name(name_p2)
 
         print(f"\n"
               f"Hello {name_p2}!")
@@ -372,33 +358,33 @@ def win_message(n_player):
     if g_op.count("X") > g_op.count("O") and p_mark == "X":
         print(player_win)
         if game_mode == "4":
-            score_db.update_player_score(dictionary["1"][0], game_mode, 0)
-            score_db.update_player_score(dictionary["2"][0], game_mode, 1)
+            update_player_score(dictionary["1"][0], game_mode, 0)
+            update_player_score(dictionary["2"][0], game_mode, 1)
         else:
-            score_db.update_player_score(dictionary["1"][0], game_mode, 0)
+            update_player_score(dictionary["1"][0], game_mode, 0)
     elif g_op.count("X") > g_op.count("O") and ai_mark == "X":
         if game_mode == "4":
             print(player_win)
-            score_db.update_player_score(dictionary["1"][0], game_mode, 1)
-            score_db.update_player_score(dictionary["2"][0], game_mode, 0)
+            update_player_score(dictionary["1"][0], game_mode, 1)
+            update_player_score(dictionary["2"][0], game_mode, 0)
         else:
             print(ai_win)
-            score_db.update_player_score(dictionary[n_player][0], game_mode, 1)
+            update_player_score(dictionary[n_player][0], game_mode, 1)
     elif g_op.count("O") == g_op.count("X") and p_mark == "O":
         print(player_win)
         if game_mode == "4":
-            score_db.update_player_score(dictionary["1"][0], game_mode, 0)
-            score_db.update_player_score(dictionary["2"][0], game_mode, 1)
+            update_player_score(dictionary["1"][0], game_mode, 0)
+            update_player_score(dictionary["2"][0], game_mode, 1)
         else:
-            score_db.update_player_score(dictionary["1"][0], game_mode, 0)
+            update_player_score(dictionary["1"][0], game_mode, 0)
     elif g_op.count("O") == g_op.count("X") and ai_mark == "O":
         if game_mode == "4":
             print(player_win)
-            score_db.update_player_score(dictionary["2"][0], game_mode, 0)
-            score_db.update_player_score(dictionary["1"][0], game_mode, 1)
+            update_player_score(dictionary["2"][0], game_mode, 0)
+            update_player_score(dictionary["1"][0], game_mode, 1)
         else:
             print(ai_win)
-            score_db.update_player_score(dictionary[n_player][0], game_mode, 1)
+            update_player_score(dictionary[n_player][0], game_mode, 1)
 
     play_again()
 
@@ -406,10 +392,10 @@ def win_message(n_player):
 def tie_message():
     print(" Tie! ")
     if game_mode == "4":
-        score_db.update_player_score(dictionary["1"][0], game_mode, 2)
-        score_db.update_player_score(dictionary["2"][0], game_mode, 2)
+        update_player_score(dictionary["1"][0], game_mode, 2)
+        update_player_score(dictionary["2"][0], game_mode, 2)
     else:
-        score_db.update_player_score(dictionary["1"][0], game_mode, 2)
+        update_player_score(dictionary["1"][0], game_mode, 2)
 
     play_again()
 
@@ -432,7 +418,7 @@ def play_again():
                          "")
 
     if final_choice == "4" and name_p1 != "Mysterious Guy":
-        score_db.show_data(name_p1)
+        show_data(name_p1)
         play_again()
     elif final_choice == "4" and name_p1 == "Mysterious Guy":
         print("\n"
