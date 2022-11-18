@@ -14,6 +14,16 @@ AI_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 CENTER = [AI_LIST[4]]
 CORNERS = [AI_LIST[0], AI_LIST[2], AI_LIST[6], AI_LIST[8]]
 EDGES = [AI_LIST[1], AI_LIST[3], AI_LIST[5], AI_LIST[7]]
+R1 = [AI_LIST[0], AI_LIST[1], AI_LIST[2]]
+R2 = [AI_LIST[3], AI_LIST[4], AI_LIST[5]]
+R3 = [AI_LIST[6], AI_LIST[7], AI_LIST[8]]
+C1 = [AI_LIST[0], AI_LIST[3], AI_LIST[6]]
+C2 = [AI_LIST[1], AI_LIST[4], AI_LIST[7]]
+C3 = [AI_LIST[2], AI_LIST[5], AI_LIST[8]]
+D1 = [AI_LIST[0], AI_LIST[4], AI_LIST[8]]
+D2 = [AI_LIST[2], AI_LIST[4], AI_LIST[6]]
+R = [R1, R3]
+ALL_OP = [R1, R2, R3, C1, C2, C3, D1, D2]
 ai_choice = ""
 
 
@@ -205,57 +215,24 @@ def play_ai_hard(n_turn):
 
 
 def check_win_or_block(mark):
-    # Win Moves / Block Moves
-    if (g_op[0], g_op[1]) == (mark, mark) and g_op[2] == "":
-        return AI_LIST[2]
-    elif (g_op[0], g_op[4]) == (mark, mark) and g_op[8] == "":
-        return AI_LIST[8]
-    elif (g_op[0], g_op[3]) == (mark, mark) and g_op[6] == "":
-        return AI_LIST[6]
-    elif (g_op[1], g_op[2]) == (mark, mark) and g_op[0] == "":
-        return AI_LIST[0]
-    elif (g_op[1], g_op[4]) == (mark, mark) and g_op[7] == "":
-        return AI_LIST[7]
-    elif (g_op[2], g_op[4]) == (mark, mark) and g_op[6] == "":
-        return AI_LIST[6]
-    elif (g_op[2], g_op[5]) == (mark, mark) and g_op[8] == "":
-        return AI_LIST[8]
-    elif (g_op[3], g_op[4]) == (mark, mark) and g_op[5] == "":
-        return AI_LIST[5]
-    elif (g_op[3], g_op[6]) == (mark, mark) and g_op[0] == "":
-        return AI_LIST[0]
-    elif (g_op[4], g_op[5]) == (mark, mark) and g_op[3] == "":
-        return AI_LIST[3]
-    elif (g_op[4], g_op[6]) == (mark, mark) and g_op[2] == "":
-        return AI_LIST[2]
-    elif (g_op[4], g_op[7]) == (mark, mark) and g_op[1] == "":
-        return AI_LIST[1]
-    elif (g_op[4], g_op[8]) == (mark, mark) and g_op[0] == "":
-        return AI_LIST[0]
-    elif (g_op[5], g_op[8]) == (mark, mark) and g_op[2] == "":
-        return AI_LIST[2]
-    elif (g_op[6], g_op[7]) == (mark, mark) and g_op[8] == "":
-        return AI_LIST[8]
-    elif (g_op[7], g_op[8]) == (mark, mark) and g_op[6] == "":
-        return AI_LIST[6]
+    # Win Moves, Forks / Block Moves, Forks
+    r1 = [g_op[0], g_op[1], g_op[2]]
+    r2 = [g_op[3], g_op[4], g_op[5]]
+    r3 = [g_op[6], g_op[7], g_op[8]]
+    c1 = [g_op[0], g_op[3], g_op[6]]
+    c2 = [g_op[1], g_op[4], g_op[7]]
+    c3 = [g_op[2], g_op[5], g_op[8]]
+    d1 = [g_op[0], g_op[4], g_op[8]]
+    d2 = [g_op[2], g_op[4], g_op[6]]
+    all_op = [r1, r2, r3, c1, c2, c3, d1, d2]
 
-    # Win Forks / Block Forks
-    elif (g_op[0], g_op[2]) == (mark, mark) and g_op[1] == "":
-        return AI_LIST[1]
-    elif (g_op[0], g_op[8]) == (mark, mark) and g_op[4] == "":
-        return AI_LIST[4]
-    elif (g_op[0], g_op[6]) == (mark, mark) and g_op[3] == "":
-        return AI_LIST[3]
-    elif (g_op[1], g_op[7]) == (mark, mark) and g_op[4] == "":
-        return AI_LIST[4]
-    elif (g_op[2], g_op[6]) == (mark, mark) and g_op[4] == "":
-        return AI_LIST[4]
-    elif (g_op[2], g_op[8]) == (mark, mark) and g_op[5] == "":
-        return AI_LIST[5]
-    elif (g_op[3], g_op[5]) == (mark, mark) and g_op[4] == "":
-        return AI_LIST[4]
-    elif (g_op[6], g_op[8]) == (mark, mark) and g_op[7] == "":
-        return AI_LIST[7]
+    for i in range(len(all_op)):
+        if (all_op[i][0], all_op[i][1]) == (mark, mark) and all_op[i][2] == "":
+            return ALL_OP[i][2]
+        elif (all_op[i][0], all_op[i][2]) == (mark, mark) and all_op[i][1] == "":
+            return ALL_OP[i][1]
+        elif (all_op[i][1], all_op[i][2]) == (mark, mark) and all_op[i][0] == "":
+            return ALL_OP[i][0]
 
 
 def check_forks(mark):
@@ -352,62 +329,40 @@ def check_other_moves(mark):
 
 
 def check_final_moves(mark):
-    global ai_choice
+    corners = [g_op[0], g_op[2], g_op[6], g_op[8]]
+    edges = [g_op[1], g_op[3], g_op[5], g_op[7]]
     # Opposite Corner
-    if g_op[0] == mark and g_op[8] == "":
-        return AI_LIST[8]
-    elif g_op[2] == mark and g_op[6] == "":
-        return AI_LIST[6]
-    elif g_op[6] == mark and g_op[2] == "":
-        return AI_LIST[2]
-    elif g_op[8] == mark and g_op[0] == "":
-        return AI_LIST[0]
-
+    for i in range(len(corners)):
+        if corners[i] not in ("", mark) and list(reversed(corners))[i] == "":
+            return list(reversed(CORNERS))[i]
     # Corner
-    elif g_op[0] == "":
-        ai_choice = AI_LIST[0]
-    elif g_op[2] == "":
-        ai_choice = AI_LIST[2]
-    elif g_op[6] == "":
-        ai_choice = AI_LIST[6]
-    elif g_op[8] == "":
-        ai_choice = AI_LIST[8]
-
+    for i in range(len(corners)):
+        if corners[i] == "":
+            return CORNERS[i]
     # Edge
-    elif g_op[1] == "":
-        ai_choice = AI_LIST[1]
-    elif g_op[3] == "":
-        ai_choice = AI_LIST[3]
-    elif g_op[5] == "":
-        ai_choice = AI_LIST[5]
-    elif g_op[7] == "":
-        ai_choice = AI_LIST[7]
-
-    return ai_choice
+    for i in range(len(edges)):
+        if edges[i] == "":
+            return EDGES[i]
 
 
 def check_win(n_player):
+    r1 = [g_op[0], g_op[1], g_op[2]]
+    r2 = [g_op[3], g_op[4], g_op[5]]
+    r3 = [g_op[6], g_op[7], g_op[8]]
+    c1 = [g_op[0], g_op[3], g_op[6]]
+    c2 = [g_op[1], g_op[4], g_op[7]]
+    c3 = [g_op[2], g_op[5], g_op[8]]
+    d1 = [g_op[0], g_op[4], g_op[8]]
+    d2 = [g_op[2], g_op[4], g_op[6]]
+    all_op = [r1, r2, r3, c1, c2, c3, d1, d2]
+
     if len(av_options) <= 4:
-        if g_op[0] == g_op[1] and g_op[0] == g_op[2] and (g_op[0], g_op[1], g_op[2]) != ("", "", ""):
-            win_message(n_player)
-        elif g_op[0] == g_op[3] and g_op[0] == g_op[6] and (g_op[0], g_op[3], g_op[6]) != ("", "", ""):
-            win_message(n_player)
-        elif g_op[0] == g_op[4] and g_op[0] == g_op[8] and (g_op[0], g_op[4], g_op[8]) != ("", "", ""):
-            win_message(n_player)
-        elif g_op[1] == g_op[4] and g_op[1] == g_op[7] and (g_op[1], g_op[4], g_op[7]) != ("", "", ""):
-            win_message(n_player)
-        elif g_op[2] == g_op[5] and g_op[2] == g_op[8] and (g_op[2], g_op[5], g_op[8]) != ("", "", ""):
-            win_message(n_player)
-        elif g_op[2] == g_op[4] and g_op[2] == g_op[6] and (g_op[2], g_op[4], g_op[6]) != ("", "", ""):
-            win_message(n_player)
-        elif g_op[3] == g_op[4] and g_op[3] == g_op[5] and (g_op[3], g_op[4], g_op[5]) != ("", "", ""):
-            win_message(n_player)
-        elif g_op[6] == g_op[7] and g_op[6] == g_op[8] and (g_op[6], g_op[7], g_op[8]) != ("", "", ""):
-            win_message(n_player)
+        for i in all_op:
+            if i[0] == i[1] and i[0] == i[2] and (i[0], i[1], i[2]) != ("", "", ""):
+                win_message(n_player)
 
     if len(av_options) == 0:
-        if g_op.count("X") == g_op.count("O") + 1:
-            tie_message()
+        tie_message()
 
 
 def win_message(n_player):
@@ -446,6 +401,7 @@ def win_message(n_player):
             score_db.update_player_score(dictionary[n_player][0], game_mode, 1)
 
     play_again()
+
 
 def tie_message():
     print(" Tie! ")
