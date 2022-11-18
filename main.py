@@ -28,7 +28,8 @@ def start():
               "3. Players take turns putting their marks in empty squares. Squares are identified with numbers:\n"
               f"{table.example_table}"
               "4. The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.\n"
-              "5. When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends in a tie.")
+              "5. When all 9 squares are full, the game is over. "
+              "If no player has 3 marks in a row, the game ends in a tie.")
 
     select_name("1")
 
