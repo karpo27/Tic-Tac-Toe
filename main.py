@@ -418,13 +418,21 @@ def play_again():
                          "4- Show my score\n"
                          "")
 
-    if final_choice == "4" and name_p1 != "Mysterious Guy":
-        show_data(name_p1)
-        play_again()
-    elif final_choice == "4" and name_p1 == "Mysterious Guy":
-        print("\n"
-              "If you are playing nameless, you have no stats! ")
-        play_again()
+    if final_choice == "4":
+        if name_p1 != "Mysterious Guy" and name_p2 != "Mysterious Guy's partner":
+            show_data(name_p1)
+            show_data(name_p2)
+            play_again()
+        elif name_p1 == "Mysterious Guy" and name_p2 == "Mysterious Guy's partner":
+            print("\n"
+                  "If you are playing nameless, you have no stats! ")
+            play_again()
+        elif name_p1 != "Mysterious Guy" and name_p2 == "Mysterious Guy's partner":
+            show_data(name_p1)
+            play_again()
+        elif name_p1 == "Mysterious Guy" and name_p2 != "Mysterious Guy's partner":
+            show_data(name_p2)
+            play_again()
     elif final_choice == "1":
         select_mark()
     elif final_choice == "2":
