@@ -196,6 +196,7 @@ def play_ai_hard(n_turn):
                        check_forks(p_mark), check_other_moves(ai_mark), check_other_moves(p_mark),
                        check_final_moves(ai_mark), check_final_moves(p_mark)]
 
+        print(choice_list)
         for i in choice_list:
             if i in av_options:
                 return i
@@ -256,63 +257,59 @@ def check_forks(mark):
 
 
 def check_other_moves(mark):
-    global ai_choice
-
     # Search Forks or Win Condition
     if g_op[0] not in ("", mark):
         if (g_op[1], g_op[2]) == ("", ""):
-            ai_choice = AI_LIST[2]
+            return AI_LIST[2]
         elif (g_op[4], g_op[8]) == ("", ""):
-            ai_choice = AI_LIST[4]
+            return AI_LIST[4]
         elif (g_op[3], g_op[6]) == ("", ""):
-            ai_choice = AI_LIST[6]
+            return AI_LIST[6]
 
     elif g_op[1] not in ("", mark) and (g_op[4], g_op[7]) == ("", ""):
-        ai_choice = AI_LIST[7]
+        return AI_LIST[7]
 
     elif g_op[2] not in ("", mark):
         if (g_op[0], g_op[1]) == ("", ""):
-            ai_choice = AI_LIST[0]
+            return AI_LIST[0]
         elif (g_op[4], g_op[6]) == ("", ""):
-            ai_choice = AI_LIST[4]
+            return AI_LIST[4]
         elif (g_op[5], g_op[8]) == ("", ""):
-            ai_choice = AI_LIST[8]
+            return AI_LIST[8]
 
     elif g_op[3] not in ("", mark) and (g_op[4], g_op[5]) == ("", ""):
-        ai_choice = AI_LIST[5]
+        return AI_LIST[5]
 
     elif g_op[5] not in ("", mark) and (g_op[3], g_op[4]) == ("", ""):
-        ai_choice = AI_LIST[3]
+        return AI_LIST[3]
 
     elif g_op[6] not in ("", mark):
         if (g_op[0], g_op[3]) == ("", ""):
-            ai_choice = AI_LIST[0]
+            return AI_LIST[0]
         elif (g_op[2], g_op[4]) == ("", ""):
-            ai_choice = AI_LIST[4]
+            return AI_LIST[4]
         elif (g_op[7], g_op[8]) == ("", ""):
-            ai_choice = AI_LIST[8]
+            return AI_LIST[8]
 
     elif g_op[7] not in ("", mark) and (g_op[1], g_op[4]) == ("", ""):
-        ai_choice = AI_LIST[1]
+        return AI_LIST[1]
 
     elif g_op[8] not in ("", mark):
         if (g_op[2], g_op[5]) == ("", ""):
-            ai_choice = AI_LIST[2]
+            return AI_LIST[2]
         elif (g_op[0], g_op[4]) == ("", ""):
-            ai_choice = AI_LIST[4]
+            return AI_LIST[4]
         elif (g_op[6], g_op[7]) == ("", ""):
-            ai_choice = AI_LIST[6]
+            return AI_LIST[6]
 
     elif g_op[4] not in ("", mark) and (g_op[0], g_op[8]) == ("", ""):
-        ai_choice = secrets.choice([AI_LIST[0], AI_LIST[8]])
+        return secrets.choice([AI_LIST[0], AI_LIST[8]])
     elif g_op[4] not in ("", mark) and (g_op[1], g_op[7]) == ("", ""):
-        ai_choice = secrets.choice([AI_LIST[1], AI_LIST[7]])
+        return secrets.choice([AI_LIST[1], AI_LIST[7]])
     elif g_op[4] not in ("", mark) and (g_op[2], g_op[6]) == ("", ""):
-        ai_choice = secrets.choice([AI_LIST[2], AI_LIST[6]])
+        return secrets.choice([AI_LIST[2], AI_LIST[6]])
     elif g_op[4] not in ("", mark) and (g_op[3], g_op[5]) == ("", ""):
-        ai_choice = secrets.choice([AI_LIST[3], AI_LIST[5]])
-
-    return ai_choice
+        return secrets.choice([AI_LIST[3], AI_LIST[5]])
 
 
 def check_final_moves(mark):
