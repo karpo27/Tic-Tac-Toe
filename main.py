@@ -315,18 +315,24 @@ def check_other_moves(mark):
 def check_final_moves(mark):
     corners = [g_op[0], g_op[2], g_op[6], g_op[8]]
     edges = [g_op[1], g_op[3], g_op[5], g_op[7]]
-    # Opposite Corner
-    for i in range(len(corners)):
-        if corners[i] not in ("", mark) and list(reversed(corners))[i] == "":
-            return list(reversed(CORNERS))[i]
-    # Corner
-    for i in range(len(corners)):
-        if corners[i] == "":
-            return CORNERS[i]
-    # Edge
-    for i in range(len(edges)):
-        if edges[i] == "":
-            return EDGES[i]
+    # Last Empty Slots
+    if (g_op[1], g_op[7]) == ("", "") and g_op[4] == mark:
+        return secrets.choice([AI_LIST[1], AI_LIST[7]])
+    elif (g_op[3], g_op[5]) == ("", "") and g_op[4] == mark:
+        return secrets.choice([AI_LIST[3], AI_LIST[5]])
+    else:
+        # Opposite Corner
+        for i in range(len(corners)):
+            if corners[i] not in ("", mark) and list(reversed(corners))[i] == "":
+                return list(reversed(CORNERS))[i]
+        # Corner
+        for i in range(len(corners)):
+            if corners[i] == "":
+                return CORNERS[i]
+        # Edge
+        for i in range(len(edges)):
+            if edges[i] == "":
+                return EDGES[i]
 
 
 def check_win(n_player):
