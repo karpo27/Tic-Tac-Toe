@@ -196,7 +196,6 @@ def play_ai_hard(n_turn):
                        check_forks(p_mark), check_other_moves(ai_mark), check_other_moves(p_mark),
                        check_final_moves(ai_mark), check_final_moves(p_mark)]
 
-        print(choice_list)
         for i in choice_list:
             if i in av_options:
                 return i
@@ -450,4 +449,3 @@ def play_again():
 
 if __name__ == "__main__":
     start()
-
