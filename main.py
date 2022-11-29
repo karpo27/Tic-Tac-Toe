@@ -69,10 +69,10 @@ def select_name(n_player):
 def select_game_mode():
     global game_mode
     game_mode = input("\n"
-                     "Please select the game mode:\n"
-                     "1- Easy\n"
-                     "2- Medium\n"
-                     "3- Hard\n"
+                      "Please select the game mode:\n"
+                      "1- Easy\n"
+                      "2- Medium\n"
+                      "3- Hard\n"
                       "4- PVP\n"
                       "")
 
@@ -249,9 +249,11 @@ def check_forks(mark):
     elif (g_op[5], g_op[6]) == (mark, mark) and (g_op[2], g_op[7], g_op[8]) == ("", "", ""):
         return AI_LIST[8]
 
-    elif (g_op[0], g_op[8]) == (mark, mark) and (g_op[1], g_op[2], g_op[3], g_op[5], g_op[6], g_op[7]) == ("", "", "", "", "", ""):
+    elif (g_op[0], g_op[8]) == (mark, mark) and (g_op[1], g_op[2], g_op[3], g_op[5], g_op[6], g_op[7]) == (
+    "", "", "", "", "", ""):
         return secrets.choice(EDGES)
-    elif (g_op[2], g_op[6]) == (mark, mark) and (g_op[0], g_op[1], g_op[3], g_op[5], g_op[7], g_op[8]) == ("", "", "", "", "", ""):
+    elif (g_op[2], g_op[6]) == (mark, mark) and (g_op[0], g_op[1], g_op[3], g_op[5], g_op[7], g_op[8]) == (
+    "", "", "", "", "", ""):
         return secrets.choice(EDGES)
 
 
