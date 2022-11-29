@@ -1,5 +1,5 @@
 # Scripts:
-import table
+from table import *
 from score_db import *
 from constants import *
 
@@ -26,7 +26,7 @@ def start():
               "1. The game is played on a grid that's 3 squares by 3 squares.\n"
               "2. You can choose 'X' or 'O' and the other person or AI uses the remaining option.\n"
               "3. Players take turns putting their marks in empty squares. Squares are identified with numbers:\n"
-              f"{table.example_table}"
+              f"{example_table}"
               "4. The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.\n"
               "5. When all 9 squares are full, the game is over. "
               "If no player has 3 marks in a row, the game ends in a tie.")
@@ -123,7 +123,7 @@ def play_player(n_player):
     if len(av_options) == 9:
         print("\n"
               f"  »  {dictionary[n_player][0]}'s Turn")
-        print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
+        print(table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     else:
         print(f"    {dictionary[n_player][0]}'s Turn")
 
@@ -139,7 +139,7 @@ def play_player(n_player):
         play_player(n_player)
 
     time.sleep(0.4)
-    print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
+    print(table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     check_win(n_player)
     turn.pop(0)
 
@@ -167,7 +167,7 @@ def play_ai(game_mode):
     g_op.insert(int(ai_choice) - 1, ai_mark)
 
     time.sleep(0.4)
-    print(table.table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
+    print(table.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
     check_win("1")
     turn.pop(0)
     play_player("1")
@@ -421,20 +421,29 @@ def play_again():
                          "")
 
     if final_choice == "4":
-        if name_p1 != "Mysterious Guy" and name_p2 != "Mysterious Guy's partner":
-            show_data(name_p1)
-            show_data(name_p2)
-            play_again()
-        elif name_p1 == "Mysterious Guy" and name_p2 == "Mysterious Guy's partner":
-            print("\n"
-                  "If you are playing nameless, you have no stats! ")
-            play_again()
-        elif name_p1 != "Mysterious Guy" and name_p2 == "Mysterious Guy's partner":
-            show_data(name_p1)
-            play_again()
-        elif name_p1 == "Mysterious Guy" and name_p2 != "Mysterious Guy's partner":
-            show_data(name_p2)
-            play_again()
+        if game_mode == "4":
+            if name_p1 != "Mysterious Guy" and name_p2 != "Mysterious Guy's partner":
+                show_data(name_p1)
+                show_data(name_p2)
+                play_again()
+            elif name_p1 == "Mysterious Guy" and name_p2 == "Mysterious Guy's partner":
+                print("\n"
+                      "If you are playing nameless, you have no stats! ")
+                play_again()
+            elif name_p1 != "Mysterious Guy" and name_p2 == "Mysterious Guy's partner":
+                show_data(name_p1)
+                play_again()
+            elif name_p1 == "Mysterious Guy" and name_p2 != "Mysterious Guy's partner":
+                show_data(name_p2)
+                play_again()
+        else:
+            if name_p1 != "Mysterious Guy":
+                show_data(name_p1)
+                play_again()
+            elif name_p1 == "Mysterious Guy":
+                print("\n"
+                      "If you are playing nameless, you have no stats! ")
+                play_again()
     elif final_choice == "1":
         select_mark()
     elif final_choice == "2":
