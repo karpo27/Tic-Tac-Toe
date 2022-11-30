@@ -123,7 +123,7 @@ def play_player(n_player):
     if len(av_options) == 9:
         print("\n"
               f"  »  {dictionary[n_player][0]}'s Turn")
-        print(board.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
+        print(board.format(*g_op))
     else:
         print(f"    {dictionary[n_player][0]}'s Turn")
 
@@ -139,7 +139,7 @@ def play_player(n_player):
         play_player(n_player)
 
     time.sleep(0.4)
-    print(board.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
+    print(board.format(*g_op))
     check_win(n_player)
     turn.pop(0)
 
@@ -167,7 +167,7 @@ def play_ai(game_mode):
     g_op.insert(int(ai_choice) - 1, ai_mark)
 
     time.sleep(0.4)
-    print(board.format(g_op[0], g_op[1], g_op[2], g_op[3], g_op[4], g_op[5], g_op[6], g_op[7], g_op[8]))
+    print(board.format(*g_op))
     check_win("1")
     turn.pop(0)
     play_player("1")
