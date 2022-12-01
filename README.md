@@ -1,5 +1,8 @@
 # Tic-Tac-Toe
+
 Classic Tic Tac Toe game coded in Python. 
+
+![Image text](https://github.com/karpo27/Tic-Tac-Toe/blob/main/image_1.PNG)
 
 For playing you need to:
 
