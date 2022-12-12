@@ -2,7 +2,7 @@
 
 Classic Tic Tac Toe game coded in Python. 
 
-![Image text](https://github.com/karpo27/Tic-Tac-Toe/blob/main/image_1.PNG)
+![image](https://user-images.githubusercontent.com/54405665/206944626-9f152e89-8d2a-4a7e-83d9-f2357e043ab5.png)
 
 For playing you need to:
 
