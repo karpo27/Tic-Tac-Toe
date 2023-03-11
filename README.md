@@ -19,7 +19,7 @@ Table of Contents:
 
 [Playing Against the Computer](#PlayingAgainsttheComputer)
 
-[Technologies Used](#Technologies Used)
+[Technologies Used](#TechnologiesUsed)
 
 [Contributing](#Contributing)
 
@@ -53,9 +53,9 @@ This game was written in Python 3, and makes use of the following modules:
 
 - time: Used for a short pause between moves to make the game feel more natural.
 - secrets: Used to generate random AI moves in the easy and medium difficulty modes.
--
+- sqlite3: Used to save scores in a database based on player's name.
 
 ## Contributing
 This project is open for contributions from anyone who wants to improve it. If you'd like to contribute, feel free to fork the repository, make your changes, and submit a pull request
 
-Enjoy!
+Enjoy it!
