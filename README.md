@@ -13,11 +13,11 @@ Table of Contents:
 
 [Installation](#Installation)
 
-[Gameplay Rules](#Gameplay_Rules)
+[Gameplay Rules](#GameplayRules)
 
 [Modes](#Modes)
 
-[Playing Against the Computer](#Playing_Against_the_Computer)
+[Playing Against the Computer](#PlayingAgainsttheComputer)
 
 [Technologies Used](#TechnologiesUsed)
 
@@ -59,3 +59,5 @@ This game was written in Python 3, and makes use of the following modules:
 This project is open for contributions from anyone who wants to improve it. If you'd like to contribute, feel free to fork the repository, make your changes, and submit a pull request
 
 Enjoy it!
+
+karpo27
