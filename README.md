@@ -13,11 +13,11 @@ Table of Contents:
 
 [Installation](#Installation)
 
-[Gameplay Rules](#GameplayRules)
+[Gameplay Rules](#Gameplay_Rules)
 
 [Modes](#Modes)
 
-[Playing Against the Computer](#PlayingAgainsttheComputer)
+[Playing Against the Computer](#Playing_Against_the_Computer)
 
 [Technologies Used](#TechnologiesUsed)
 
