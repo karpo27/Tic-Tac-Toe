@@ -13,11 +13,11 @@ Table of Contents:
 
 [Installation](#Installation)
 
-[GameplayRules](#GameplayRules)
+[Gameplay Rules](#GameplayRules)
 
 [Modes](#Modes)
 
-[Playing Against the Computer](#Playing Against the Computer)
+[Playing Against the Computer](#PlayingAgainsttheComputer)
 
 [Technologies Used](#Technologies Used)
 
@@ -48,7 +48,7 @@ There are three difficulty modes to choose from:
 ## Playing Against the Computer
 When playing against the computer, the game uses an artificial intelligence (AI) algorithm to determine the computer's moves. The difficulty level of the AI can be adjusted by selecting a mode before starting the game. 
 
-# Technologies Used
+## Technologies Used
 This game was written in Python 3, and makes use of the following modules:
 
 - time: Used for a short pause between moves to make the game feel more natural.
