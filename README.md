@@ -12,10 +12,15 @@ This is a command-line implementation of the classic game, Tic Tac Toe, written 
 Table of Contents:
 
 [Installation](#Installation)
+
 [GameplayRules](#GameplayRules)
+
 [Modes](#Modes)
+
 [Playing Against the Computer](#Playing Against the Computer)
+
 [Technologies Used](#Technologies Used)
+
 [Contributing](#Contributing)
 
 ## Installation
