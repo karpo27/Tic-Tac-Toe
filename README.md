@@ -13,7 +13,7 @@ Table of Contents:
 
 [Installation](#Installation)
 
-[Gameplay Rules](#Gameplay-Rules)
+[Gameplay - Rules](#Gameplay---Rules)
 
 [Modes](#Modes)
 
