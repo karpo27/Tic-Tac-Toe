@@ -25,7 +25,7 @@ For playing you need to:
 
 2- To play this game, you'll need to have Python 3 installed on your machine. If you don't have it, you can download and install it from the official  - Python website: https://www.python.org/downloads/
 
-3- Run main.py in VCS, Pycharm, etc. or open it in console.
+3- Run main.py in VSC, Pycharm, etc. or open it in console.
 
 The game automatically saves your progress in a database, you can check your stats at any time.
 
