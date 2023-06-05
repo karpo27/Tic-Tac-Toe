@@ -15,6 +15,7 @@ Table of Contents:
 - [Playing Against the Computer](#Playing-Against-the-Computer)
 - [Technologies Used](#Technologies-Used)
 - [Contributing](#Contributing)
+- [How to reach me](#How-to-reach-me)
 
 ## Installation
 For playing you need to:
